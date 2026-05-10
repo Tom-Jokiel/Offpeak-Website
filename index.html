@@ -17,6 +17,8 @@
       --charcoal-light: #4A4642;
       --highlight: #C8714A;
       --highlight-light: rgba(200,113,74,0.12);
+      --green: #5BAD7F;
+      --yellow: #E0A93D;
       --white: #FFFFFF;
       --shadow: 0 4px 32px rgba(44,41,39,0.12);
       --radius: 14px;
@@ -54,7 +56,15 @@
       color: var(--charcoal);
     }
 
-    .nav-logo svg { width: 38px; height: 38px; }
+    /* Logo image — shows when logo.png is present */
+    .nav-logo-img {
+      height: 42px;
+      width: auto;
+      display: block;
+    }
+
+    /* Fallback SVG — shown if no logo.png yet */
+    .nav-logo-svg { width: 38px; height: 38px; }
 
     .logo-text { line-height: 1.1; }
     .logo-text .brand {
@@ -80,7 +90,7 @@
       list-style: none;
     }
 
-    .nav-links a {
+    .nav-links a:not(.btn) {
       font-size: 0.8rem;
       font-weight: 600;
       letter-spacing: 0.09em;
@@ -89,7 +99,7 @@
       color: var(--charcoal);
       transition: color 0.2s;
     }
-    .nav-links a:hover { color: var(--highlight); }
+    .nav-links a:not(.btn):hover { color: var(--highlight); }
 
     .btn {
       display: inline-flex;
@@ -107,8 +117,11 @@
       border: none;
       transition: all 0.2s;
     }
-    .btn-primary { background: var(--charcoal); color: var(--cream); }
-    .btn-primary:hover { background: var(--highlight); transform: translateY(-1px); }
+
+    /* Book Now: terracotta text on charcoal / charcoal text on terracotta hover */
+    .btn-primary { background: var(--charcoal); color: var(--highlight); }
+    .btn-primary:hover { background: var(--highlight); color: var(--charcoal); transform: translateY(-1px); }
+
     .btn-outline { background: transparent; color: var(--charcoal); border: 2px solid var(--charcoal); }
     .btn-outline:hover { background: var(--charcoal); color: var(--cream); }
     .btn-highlight { background: var(--highlight); color: var(--white); }
@@ -201,6 +214,7 @@
 
     .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
 
+    /* Scroll indicator — fades out on scroll via JS */
     .hero-scroll {
       position: absolute;
       bottom: 2rem;
@@ -216,10 +230,12 @@
       letter-spacing: 0.18em;
       text-transform: uppercase;
       animation: bounce 2.2s ease-in-out infinite;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
     }
     @keyframes bounce {
       0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(-8px); }
+      50%       { transform: translateX(-50%) translateY(-8px); }
     }
 
     /* ── SECTION COMMON ── */
@@ -287,6 +303,7 @@
       gap: 1.5rem;
       max-width: 1200px;
       margin: 0 auto;
+      align-items: stretch;
     }
 
     .package-card {
@@ -295,13 +312,21 @@
       overflow: hidden;
       border: 1px solid rgba(44,41,39,0.07);
       transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
     }
     .package-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
     .package-card.featured { background: var(--charcoal); color: var(--cream); }
 
-    .package-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+    .package-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; flex-shrink: 0; }
 
-    .package-body { padding: 1.75rem; }
+    /* Makes all card bodies fill equally so text lines up */
+    .package-body {
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
 
     .package-level {
       font-family: 'Montserrat', sans-serif;
@@ -313,10 +338,10 @@
       margin-bottom: 0.5rem;
     }
     .package-name { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.4rem; margin-bottom: 0.75rem; }
-    .package-desc { font-size: 0.875rem; line-height: 1.72; color: var(--charcoal-light); margin-bottom: 1.25rem; }
+    .package-desc { font-size: 0.875rem; line-height: 1.72; color: var(--charcoal-light); margin-bottom: 1.25rem; min-height: 6rem; }
     .package-card.featured .package-desc { color: rgba(232,228,220,0.65); }
 
-    .package-features { list-style: none; margin-bottom: 1.5rem; }
+    .package-features { list-style: none; margin-bottom: 1.5rem; flex: 1; }
     .package-features li {
       font-size: 0.825rem;
       padding: 0.4rem 0;
@@ -328,7 +353,7 @@
     .package-card.featured .package-features li { border-bottom-color: rgba(232,228,220,0.1); }
     .package-features li::before { content: '✓'; color: var(--highlight); font-weight: 700; flex-shrink: 0; }
 
-    .package-price { display: flex; align-items: baseline; gap: 0.25rem; margin-bottom: 1.25rem; }
+    .package-price { display: flex; align-items: baseline; gap: 0.25rem; margin-bottom: 1.25rem; margin-top: auto; padding-top: 1rem; }
     .price-amount { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 2rem; }
     .price-per { font-size: 0.8rem; color: var(--charcoal-light); }
     .package-card.featured .price-per { color: rgba(232,228,220,0.55); }
@@ -410,17 +435,28 @@
     }
     .cal-day.empty { cursor: default; }
     .cal-day.past { color: rgba(44,41,39,0.22); cursor: default; }
-    .cal-day.available:hover { background: var(--highlight-light); border-color: var(--highlight); }
-    .cal-day.partial::after {
+    .cal-day.available:hover { background: rgba(91,173,127,0.12); border-color: var(--green); }
+
+    /* Availability dot indicator */
+    .cal-day.has-dot::after {
       content: '';
       position: absolute;
       bottom: 3px;
-      width: 4px;
-      height: 4px;
+      width: 5px;
+      height: 5px;
       border-radius: 50%;
-      background: var(--highlight);
     }
-    .cal-day.full { color: rgba(44,41,39,0.3); background: rgba(44,41,39,0.04); cursor: not-allowed; text-decoration: line-through; }
+    .cal-day.has-dot.open::after { background: var(--green); }
+    .cal-day.has-dot.low::after  { background: var(--yellow); }
+
+    /* Fully booked: terracotta outline */
+    .cal-day.full {
+      color: rgba(44,41,39,0.28);
+      cursor: not-allowed;
+      border-color: rgba(200,113,74,0.35);
+    }
+    .cal-day.low:hover { background: rgba(224,169,61,0.12); border-color: var(--yellow); }
+
     .cal-day.selected { background: var(--charcoal); color: var(--cream); border-color: var(--charcoal); }
     .cal-day.today { font-weight: 800; color: var(--highlight); }
     .cal-day.selected.today { color: var(--cream); }
@@ -432,7 +468,7 @@
       flex-wrap: wrap;
     }
     .legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.7rem; color: var(--charcoal-light); }
-    .legend-dot { width: 9px; height: 9px; border-radius: 50%; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 
     .slots-wrap { margin-top: 1rem; display: none; }
     .slots-wrap.visible { display: block; }
@@ -457,14 +493,14 @@
     }
     .slot-time { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.88rem; }
     .slot-status { font-size: 0.7rem; margin-top: 0.2rem; color: var(--charcoal-light); }
-    .slot.available:hover { border-color: var(--highlight); background: var(--highlight-light); }
-    .slot.booked { background: rgba(44,41,39,0.04); border-color: rgba(44,41,39,0.07); cursor: not-allowed; }
+    .slot.available:hover { border-color: var(--green); background: rgba(91,173,127,0.1); }
+    .slot.booked { background: rgba(44,41,39,0.04); border-color: rgba(200,113,74,0.25); cursor: not-allowed; }
     .slot.booked .slot-time { color: rgba(44,41,39,0.3); }
     .slot.booked .slot-status { color: rgba(44,41,39,0.25); }
     .slot.selected { background: var(--charcoal); border-color: var(--charcoal); color: var(--cream); }
     .slot.selected .slot-status { color: rgba(232,228,220,0.65); }
 
-    /* Booking panel */
+    /* ── BOOKING PANEL ── */
     .booking-panel {
       background: var(--charcoal);
       border-radius: var(--radius);
@@ -486,21 +522,44 @@
       color: rgba(232,228,220,0.55);
       margin-bottom: 0.35rem;
     }
+
+    /* Clean dropdown — no OS gradient, custom arrow */
     .form-control {
       width: 100%;
-      background: rgba(232,228,220,0.08);
+      background-color: rgba(20,18,16,0.6);
+      background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5.5L11 1' stroke='%23E8E4DC' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.85rem center;
+      background-size: 12px;
+      appearance: none;
+      -webkit-appearance: none;
       border: 1px solid rgba(232,228,220,0.13);
       border-radius: 8px;
-      padding: 0.6rem 0.85rem;
+      padding: 0.6rem 2.5rem 0.6rem 0.85rem;
       color: var(--cream);
       font-family: 'Inter', sans-serif;
       font-size: 0.875rem;
       transition: border-color 0.2s;
       outline: none;
+      cursor: pointer;
     }
     .form-control::placeholder { color: rgba(232,228,220,0.28); }
     .form-control:focus { border-color: var(--highlight); }
-    .form-control option { background: #2C2927; }
+
+    /* Input fields: no arrow */
+    input.form-control,
+    textarea.form-control {
+      background-image: none;
+      padding-right: 0.85rem;
+      cursor: text;
+    }
+    textarea.form-control { resize: vertical; }
+
+    /* Option elements */
+    .form-control option {
+      background-color: #1E1C1A;
+      color: #E8E4DC;
+    }
 
     .selected-slot-display {
       background: rgba(200,113,74,0.12);
@@ -528,62 +587,259 @@
     }
     .pay-option:hover, .pay-option.active { border-color: var(--highlight); color: var(--cream); background: rgba(200,113,74,0.14); }
 
-    /* ── INSTRUCTORS ── */
-    #instructors { background: var(--cream-light); }
-
-    .instructors-header { max-width: 1200px; margin: 0 auto 3.5rem; }
-
-    .instructors-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.5rem;
-      max-width: 1200px;
-      margin: 0 auto;
+    /* Booking-panel add-ons */
+    .booking-addons { display: flex; flex-direction: column; gap: 0.4rem; }
+    .booking-addon {
+      padding: 0.6rem 0.8rem;
+      border: 1.5px solid rgba(232,228,220,0.13);
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+      color: rgba(232,228,220,0.72);
+      transition: all 0.2s;
+      user-select: none;
     }
+    .booking-addon:hover { border-color: var(--highlight); }
+    .booking-addon.active {
+      border-color: var(--highlight);
+      background: rgba(200,113,74,0.14);
+      color: var(--cream);
+    }
+    .booking-addon.disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+    .booking-addon-name { font-weight: 600; }
+    .booking-addon-price { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.75rem; white-space: nowrap; }
+    .booking-addon.included .booking-addon-price { color: var(--green); }
 
-    .instructor-card {
+    /* Total summary */
+    .booking-total {
+      background: rgba(200,113,74,0.08);
+      border: 1px solid rgba(200,113,74,0.22);
+      border-radius: 10px;
+      padding: 1rem;
+      margin: 1.25rem 0;
+    }
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+      color: rgba(232,228,220,0.65);
+      margin-bottom: 0.35rem;
+    }
+    .total-row:last-child { margin-bottom: 0; }
+    .total-row.grand {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: var(--cream);
+      padding-top: 0.6rem;
+      border-top: 1px solid rgba(232,228,220,0.12);
+      margin-top: 0.5rem;
+    }
+    .total-row.grand .total-amount { color: var(--highlight); font-size: 1.1rem; }
+
+    /* ── INSTRUCTOR (single featured) ── */
+    #instructors { background: var(--cream-light); }
+    .instructors-header { max-width: 900px; margin: 0 auto 3.5rem; }
+
+    .instructor-featured {
+      max-width: 900px;
+      margin: 0 auto;
       background: var(--cream);
       border-radius: var(--radius);
       overflow: hidden;
       border: 1px solid rgba(44,41,39,0.07);
-      transition: transform 0.3s;
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      box-shadow: var(--shadow);
     }
-    .instructor-card:hover { transform: translateY(-5px); }
-    .instructor-img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; }
-    .instructor-info { padding: 1.25rem; }
-    .instructor-name { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1rem; margin-bottom: 0.2rem; }
-    .instructor-role { font-size: 0.72rem; color: var(--highlight); font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 0.6rem; }
-    .instructor-bio { font-size: 0.8rem; line-height: 1.65; color: var(--charcoal-light); }
 
-    /* ── MERCHANDISE ── */
+    .instructor-featured-img {
+      width: 100%;
+      height: 100%;
+      min-height: 420px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .instructor-featured-info {
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .instructor-featured-info .instructor-role {
+      font-size: 0.72rem;
+      color: var(--highlight);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.75rem;
+    }
+
+    .instructor-featured-info h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 2.2rem;
+      line-height: 1.05;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+
+    .instructor-featured-info p {
+      font-size: 0.95rem;
+      line-height: 1.78;
+      color: var(--charcoal-light);
+      margin-bottom: 2rem;
+    }
+
+    .instructor-badges {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .badge {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.85rem;
+      border-radius: 100px;
+      background: var(--highlight-light);
+      color: var(--highlight);
+      border: 1px solid rgba(200,113,74,0.25);
+    }
+
+    /* ── MERCHANDISE (single featured) ── */
     #merchandise { background: var(--charcoal); color: var(--cream); }
     #merchandise .section-title { color: var(--cream); }
     #merchandise .section-subtitle { color: rgba(232,228,220,0.6); }
 
-    .merch-header { max-width: 1200px; margin: 0 auto 3.5rem; }
+    .merch-header { max-width: 900px; margin: 0 auto 3.5rem; }
 
-    .merch-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.25rem;
-      max-width: 1200px;
+    .merch-featured {
+      max-width: 900px;
       margin: 0 auto 3rem;
-    }
-
-    .merch-card {
       background: rgba(232,228,220,0.06);
       border-radius: var(--radius);
       overflow: hidden;
       border: 1px solid rgba(232,228,220,0.09);
-      transition: all 0.3s;
-      cursor: pointer;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
     }
-    .merch-card:hover { background: rgba(232,228,220,0.11); transform: translateY(-4px); }
-    .merch-img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
-    .merch-info { padding: 1rem; }
-    .merch-name { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.88rem; margin-bottom: 0.25rem; }
-    .merch-price { font-size: 0.85rem; color: var(--highlight); font-weight: 700; }
-    .merch-cta { text-align: center; }
+
+    .merch-featured-img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      display: block;
+    }
+
+    .merch-featured-info {
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .merch-featured-info .merch-tag-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--highlight);
+      margin-bottom: 0.75rem;
+    }
+
+    .merch-featured-info h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 2rem;
+      text-transform: uppercase;
+      line-height: 1.05;
+      margin-bottom: 1rem;
+      color: var(--cream);
+    }
+
+    .merch-featured-info p {
+      font-size: 0.9rem;
+      line-height: 1.75;
+      color: rgba(232,228,220,0.6);
+      margin-bottom: 1.5rem;
+    }
+
+    .merch-price-tag {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 2.2rem;
+      color: var(--highlight);
+      margin-bottom: 1.75rem;
+    }
+
+    .merch-cta { text-align: center; max-width: 900px; margin: 0 auto; }
+
+    /* ── ADD-ONS ── */
+    .addons-wrap {
+      max-width: 1200px;
+      margin: 3rem auto 0;
+      background: var(--cream);
+      border-radius: var(--radius);
+      border: 1px solid rgba(44,41,39,0.08);
+      padding: 2rem;
+    }
+    .addons-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.4rem;
+    }
+    .addons-sub {
+      font-size: 0.82rem;
+      color: var(--charcoal-light);
+      margin-bottom: 1.5rem;
+    }
+    .addons-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .addon-card {
+      border: 2px solid rgba(44,41,39,0.1);
+      border-radius: 10px;
+      padding: 1.25rem 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+      user-select: none;
+    }
+    .addon-card:hover { border-color: var(--highlight); background: var(--highlight-light); }
+    .addon-card.active { border-color: var(--highlight); background: var(--highlight-light); }
+    .addon-icon { font-size: 1.6rem; margin-bottom: 0.5rem; }
+    .addon-name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.25rem;
+    }
+    .addon-desc { font-size: 0.75rem; color: var(--charcoal-light); margin-bottom: 0.5rem; }
+    .addon-price { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1rem; color: var(--highlight); }
+    @media (max-width: 900px) { .addons-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+    @media (max-width: 500px) { .addons-grid { grid-template-columns: 1fr !important; } }
 
     /* ── CONTACT ── */
     #contact { background: var(--cream-light); }
@@ -661,6 +917,16 @@
       font-size: 0.875rem;
       outline: none;
       transition: border-color 0.2s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    select.form-control-light {
+      background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5.5L11 1' stroke='%234A4642' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.85rem center;
+      background-size: 12px;
+      padding-right: 2.5rem;
+      cursor: pointer;
     }
     .form-control-light:focus { border-color: var(--highlight); }
     textarea.form-control-light { resize: vertical; min-height: 100px; }
@@ -690,8 +956,8 @@
 
     /* ── SUCCESS ── */
     .success-msg {
-      background: rgba(72,160,120,0.12);
-      border: 1px solid rgba(72,160,120,0.3);
+      background: rgba(91,173,127,0.12);
+      border: 1px solid rgba(91,173,127,0.3);
       border-radius: 8px;
       padding: 0.9rem;
       text-align: center;
@@ -703,8 +969,6 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 1024px) {
-      .instructors-grid { grid-template-columns: repeat(2, 1fr); }
-      .merch-grid { grid-template-columns: repeat(2, 1fr); }
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
     }
 
@@ -727,11 +991,14 @@
       .booking-panel { position: static; }
       .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .instructor-featured { grid-template-columns: 1fr; }
+      .instructor-featured-img { min-height: 300px; }
+      .instructor-featured-info { padding: 2rem; }
+      .merch-featured { grid-template-columns: 1fr; }
+      .merch-featured-info { padding: 2rem; }
     }
 
     @media (max-width: 540px) {
-      .instructors-grid { grid-template-columns: 1fr; }
-      .merch-grid { grid-template-columns: 1fr; }
       .about-stats { grid-template-columns: 1fr 1fr; }
     }
   </style>
@@ -741,7 +1008,13 @@
 <!-- ════════════ NAV ════════════ -->
 <nav>
   <a href="#home" class="nav-logo">
-    <svg viewBox="0 0 40 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!--
+      LOGO: Speichere dein Logo als "logo.png" in den Ordner
+      /Users/tom.jkl/offpeak-website/ — dann wird es hier automatisch angezeigt.
+    -->
+    <img src="logo.png" alt="Off Peak Surf Bali" class="nav-logo-img"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+    <svg class="nav-logo-svg" style="display:none" viewBox="0 0 40 36" fill="none">
       <path d="M3 30 Q9 10 18 18 Q23 22 28 15 Q33 8 38 5" stroke="#2C2927" stroke-width="3" stroke-linecap="round" fill="none"/>
       <path d="M3 34 Q10 14 20 22 Q25 26 30 19 Q34 13 38 9" stroke="#2C2927" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.6"/>
       <path d="M3 38 Q11 18 22 26 Q27 30 32 22 Q36 17 38 13" stroke="#2C2927" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.35"/>
@@ -755,7 +1028,7 @@
   <ul class="nav-links" id="navLinks">
     <li><a href="#home">Home</a></li>
     <li><a href="#packages">Packages</a></li>
-    <li><a href="#instructors">Instructors</a></li>
+    <li><a href="#instructors">Instructor</a></li>
     <li><a href="#merchandise">Merch</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#booking" class="btn btn-primary">Book Now</a></li>
@@ -781,7 +1054,7 @@
       <a href="#packages" class="btn btn-outline-light">View Packages</a>
     </div>
   </div>
-  <div class="hero-scroll">
+  <div class="hero-scroll" id="heroScroll">
     <span>Scroll</span>
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
       <path d="M7 2v10M2 7l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
@@ -799,15 +1072,15 @@
       <p class="section-tag">Who We Are</p>
       <h2 class="section-title" style="color:var(--cream)">Born From<br>the Ocean</h2>
       <p class="section-subtitle" style="margin-bottom:1.5rem">Off Peak Surf Bali is Canggu's home for authentic surf experiences. We believe the best sessions happen away from the crowds — at dawn, at dusk, at the moments when the ocean truly belongs to you.</p>
-      <p class="section-subtitle">Our team of passionate, certified instructors has helped hundreds of students find their feet on a board. We keep groups small, sessions personal, and the vibes exactly right.</p>
+      <p class="section-subtitle">Our certified instructor has helped hundreds of students find their feet on a board. We keep sessions personal, and the vibes exactly right.</p>
       <div class="about-stats">
         <div class="stat">
           <div class="stat-number">500+</div>
           <div class="stat-label">Students taught</div>
         </div>
         <div class="stat">
-          <div class="stat-number">6</div>
-          <div class="stat-label">Expert coaches</div>
+          <div class="stat-number">All</div>
+          <div class="stat-label">Levels welcome</div>
         </div>
         <div class="stat">
           <div class="stat-number">5★</div>
@@ -829,71 +1102,108 @@
 
     <!-- Beginner -->
     <div class="package-card">
-      <img class="package-img" src="https://images.unsplash.com/photo-1519904981063-b0cf448d9a1f?w=600&q=80" alt="Beginner surf lesson" loading="lazy">
+      <img class="package-img"
+           src="https://images.unsplash.com/photo-1473116763249-2faaef81ccda?w=600&q=80"
+           alt="Beginner surf lesson" loading="lazy">
       <div class="package-body">
         <p class="package-level">Level 01</p>
         <h3 class="package-name">Beginner</h3>
-        <p class="package-desc">Never surfed before? Perfect. We'll get you on your feet and riding waves on day one. Safety, fundamentals, and pure stoke — all in two hours.</p>
+        <p class="package-desc">Never surfed before? Perfect. We'll get you on your feet and riding your first waves. Safety, fundamentals, and pure stoke — in 90 focused minutes.</p>
         <ul class="package-features">
-          <li>2-hour guided session</li>
+          <li>90-minute guided session</li>
           <li>Surfboard &amp; rash guard included</li>
           <li>Max 4 students per instructor</li>
           <li>Beach safety &amp; theory briefing</li>
-          <li>Post-session photo &amp; video</li>
         </ul>
         <div class="package-price">
-          <span class="price-amount">$45</span>
+          <span class="price-amount">Rp 450.000</span>
           <span class="price-per">/ person</span>
         </div>
-        <a href="#booking" class="btn btn-outline" style="width:100%;justify-content:center">Book Now</a>
+        <a href="#booking" class="btn btn-outline" onclick="bookPackage('beginner')" style="width:100%;justify-content:center">Book Now</a>
       </div>
     </div>
 
     <!-- Intermediate (featured) -->
     <div class="package-card featured">
-      <img class="package-img" src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=600&q=80" alt="Intermediate surf lesson" loading="lazy">
+      <img class="package-img"
+           src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=600&q=80"
+           alt="Intermediate surf lesson" loading="lazy">
       <div class="package-body">
         <p class="package-level">Level 02 · Most Popular</p>
         <h3 class="package-name">Intermediate</h3>
         <p class="package-desc">You can pop up, but want to actually surf. We work on positioning, wave selection, timing, and start shaping your personal style.</p>
         <ul class="package-features">
           <li>2.5-hour coached session</li>
-          <li>All equipment included</li>
+          <li>Surfboard &amp; rash guard included</li>
           <li>Max 3 students per instructor</li>
           <li>Wave reading &amp; line-up etiquette</li>
-          <li>HD video analysis &amp; feedback</li>
         </ul>
         <div class="package-price">
-          <span class="price-amount">$65</span>
+          <span class="price-amount">Rp 650.000</span>
           <span class="price-per">/ person</span>
         </div>
-        <a href="#booking" class="btn btn-highlight" style="width:100%;justify-content:center">Book Now</a>
+        <a href="#booking" class="btn btn-highlight" onclick="bookPackage('intermediate')" style="width:100%;justify-content:center">Book Now</a>
       </div>
     </div>
 
     <!-- Advanced -->
     <div class="package-card">
-      <img class="package-img" src="https://images.unsplash.com/photo-1531722569936-825d4ebd1cd9?w=600&q=80" alt="Advanced surf coaching" loading="lazy">
+      <img class="package-img"
+           src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=600&q=80"
+           alt="Advanced surf coaching" loading="lazy">
       <div class="package-body">
-        <p class="package-level">Level 03</p>
+        <p class="package-level">Level 03 · All-Inclusive</p>
         <h3 class="package-name">Advanced</h3>
         <p class="package-desc">Private 1-on-1 coaching for surfers pushing their limits. Turns, aerials, barrel hunting — we go where the swell takes us.</p>
         <ul class="package-features">
           <li>3-hour private session</li>
-          <li>Premium equipment options</li>
+          <li>Surfboard &amp; rash guard included</li>
           <li>Dedicated personal coach</li>
           <li>Spot selection based on swell</li>
-          <li>Full session video edit</li>
+          <li><strong style="color:var(--highlight)">Photos + Video included</strong></li>
         </ul>
         <div class="package-price">
-          <span class="price-amount">$120</span>
+          <span class="price-amount">Rp 950.000</span>
           <span class="price-per">/ session</span>
         </div>
-        <a href="#booking" class="btn btn-outline" style="width:100%;justify-content:center">Book Now</a>
+        <a href="#booking" class="btn btn-outline" onclick="bookPackage('advanced')" style="width:100%;justify-content:center">Book Now</a>
       </div>
     </div>
 
   </div>
+
+  <!-- ADD-ONS -->
+  <div class="addons-wrap">
+    <p class="addons-title">Session Add-Ons</p>
+    <p class="addons-sub">Customize your package — add media, transport, or both. Selections carry over to the booking form.</p>
+    <div class="addons-grid" style="grid-template-columns: repeat(4, 1fr)">
+      <div class="addon-card" data-addon="photos" onclick="toggleAddon('photos')">
+        <div class="addon-icon">📷</div>
+        <div class="addon-name">Photos</div>
+        <div class="addon-desc">High-quality shots of your session, delivered same day</div>
+        <div class="addon-price">+ Rp 150.000</div>
+      </div>
+      <div class="addon-card" data-addon="video" onclick="toggleAddon('video')">
+        <div class="addon-icon">🎥</div>
+        <div class="addon-name">Video</div>
+        <div class="addon-desc">Filmed session for technique review and memories</div>
+        <div class="addon-price">+ Rp 200.000</div>
+      </div>
+      <div class="addon-card" data-addon="bundle" onclick="toggleAddon('bundle')">
+        <div class="addon-icon">📷🎥</div>
+        <div class="addon-name">Photos + Video</div>
+        <div class="addon-desc">The full package — shots and footage from your session</div>
+        <div class="addon-price">+ Rp 300.000</div>
+      </div>
+      <div class="addon-card" data-addon="transport" onclick="toggleAddon('transport')">
+        <div class="addon-icon">🛺</div>
+        <div class="addon-name">Transport</div>
+        <div class="addon-desc">We pick you up within Canggu and drive you to the spot</div>
+        <div class="addon-price">+ Rp 50.000</div>
+      </div>
+    </div>
+  </div>
+
 </section>
 
 <!-- ════════════ BOOKING ════════════ -->
@@ -926,11 +1236,15 @@
           <div class="cal-days" id="calDays"></div>
           <div class="cal-legend">
             <div class="legend-item">
-              <div class="legend-dot" style="background:var(--highlight)"></div>
+              <div class="legend-dot" style="background:var(--green)"></div>
               Slots available
             </div>
             <div class="legend-item">
-              <div class="legend-dot" style="background:rgba(44,41,39,0.18)"></div>
+              <div class="legend-dot" style="background:var(--yellow)"></div>
+              Few slots left
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background:transparent;border:2px solid var(--highlight)"></div>
               Fully booked
             </div>
             <div class="legend-item">
@@ -956,6 +1270,47 @@
 
         <form id="bookingForm">
           <div class="form-group">
+            <label>Package</label>
+            <select id="packageSelect" class="form-control" required onchange="onPackageChange()">
+              <option value="beginner">Beginner — Rp 450.000 / person</option>
+              <option value="intermediate">Intermediate — Rp 650.000 / person</option>
+              <option value="advanced">Advanced — Rp 950.000 / session</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Number of People</label>
+            <select id="peopleSelect" class="form-control" onchange="onPeopleChange()">
+              <option value="1">1 person</option>
+              <option value="2">2 people</option>
+              <option value="3">3 people</option>
+              <option value="4">4 people</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Add-Ons</label>
+            <div class="booking-addons" id="bookingAddons">
+              <div class="booking-addon" data-addon="photos" onclick="toggleAddon('photos')">
+                <span class="booking-addon-name">📷 Photos</span>
+                <span class="booking-addon-price">+ Rp 150.000</span>
+              </div>
+              <div class="booking-addon" data-addon="video" onclick="toggleAddon('video')">
+                <span class="booking-addon-name">🎥 Video</span>
+                <span class="booking-addon-price">+ Rp 200.000</span>
+              </div>
+              <div class="booking-addon" data-addon="bundle" onclick="toggleAddon('bundle')">
+                <span class="booking-addon-name">📷🎥 Photos + Video</span>
+                <span class="booking-addon-price">+ Rp 300.000</span>
+              </div>
+              <div class="booking-addon" data-addon="transport" onclick="toggleAddon('transport')">
+                <span class="booking-addon-name">🛺 Transport (Canggu pickup)</span>
+                <span class="booking-addon-price">+ Rp 50.000</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
             <label>Full Name</label>
             <input type="text" class="form-control" placeholder="Your full name" required>
           </div>
@@ -965,26 +1320,9 @@
           </div>
           <div class="form-group">
             <label>Phone / WhatsApp</label>
-            <input type="tel" class="form-control" placeholder="+1 234 567 8900">
+            <input type="tel" class="form-control" placeholder="+62 ...">
           </div>
-          <div class="form-group">
-            <label>Package</label>
-            <select class="form-control" required>
-              <option value="" disabled selected>Select a package</option>
-              <option>Beginner — $45 / person</option>
-              <option>Intermediate — $65 / person</option>
-              <option>Advanced — $120 / session</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Number of People</label>
-            <select class="form-control">
-              <option>1 person</option>
-              <option>2 people</option>
-              <option>3 people</option>
-              <option>4 people</option>
-            </select>
-          </div>
+
           <div class="form-group">
             <label>Payment Method</label>
             <div class="payment-options">
@@ -992,10 +1330,15 @@
               <div class="pay-option" onclick="selectPayment(this)">&#128181; On-site</div>
             </div>
           </div>
+
           <div class="form-group">
             <label>Message (optional)</label>
             <textarea class="form-control" rows="2" placeholder="Special requests or questions?"></textarea>
           </div>
+
+          <!-- Live total -->
+          <div class="booking-total" id="bookingTotal"></div>
+
           <button type="submit" class="btn btn-highlight" style="width:100%;padding:0.85rem;font-size:0.82rem">
             Confirm Booking
           </button>
@@ -1008,44 +1351,34 @@
   </div>
 </section>
 
-<!-- ════════════ INSTRUCTORS ════════════ -->
+<!-- ════════════ INSTRUCTOR ════════════ -->
 <section id="instructors">
   <div class="instructors-header">
     <p class="section-tag">The Team</p>
-    <h2 class="section-title">Our Instructors</h2>
-    <p class="section-subtitle">ISA-certified coaches with deep local knowledge and a genuine love for teaching.</p>
+    <h2 class="section-title">Our Instructor</h2>
+    <p class="section-subtitle">ISA-certified coach with deep local knowledge and a genuine love for teaching — all levels welcome.</p>
   </div>
-  <div class="instructors-grid">
-    <div class="instructor-card">
-      <img class="instructor-img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Made Arjuna" loading="lazy">
-      <div class="instructor-info">
-        <h3 class="instructor-name">Made Arjuna</h3>
-        <p class="instructor-role">Head Instructor</p>
-        <p class="instructor-bio">Born and raised in Canggu, Made has been surfing since he could walk. 10+ years coaching, specialising in progressive technique and barrel riding.</p>
-      </div>
-    </div>
-    <div class="instructor-card">
-      <img class="instructor-img" src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=80" alt="Sari Dewi" loading="lazy">
-      <div class="instructor-info">
-        <h3 class="instructor-name">Sari Dewi</h3>
-        <p class="instructor-role">Beginner Specialist</p>
-        <p class="instructor-bio">Sari's patient and encouraging approach makes her the go-to coach for first-timers. She has helped over 300 people catch their first wave.</p>
-      </div>
-    </div>
-    <div class="instructor-card">
-      <img class="instructor-img" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80" alt="Tom Keller" loading="lazy">
-      <div class="instructor-info">
-        <h3 class="instructor-name">Tom Keller</h3>
-        <p class="instructor-role">Performance Coach</p>
-        <p class="instructor-bio">Former competition surfer from Germany who found his home in Bali. Tom focuses on advanced technique and helping surfers break through plateaus.</p>
-      </div>
-    </div>
-    <div class="instructor-card">
-      <img class="instructor-img" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80" alt="Wayan Surya" loading="lazy">
-      <div class="instructor-info">
-        <h3 class="instructor-name">Wayan Surya</h3>
-        <p class="instructor-role">Intermediate Coach</p>
-        <p class="instructor-bio">Wayan's deep knowledge of local breaks means you'll always be in the right spot at the right time. Intermediate coaching and wave reading are his forte.</p>
+
+  <div class="instructor-featured">
+    <!--
+      INSTRUCTOR PHOTO: Speichere das Bild als "alif.jpg" in den Ordner
+      /Users/tom.jkl/offpeak-website/ — dann wird es automatisch angezeigt.
+    -->
+    <img class="instructor-featured-img"
+         src="alif.png"
+         alt="Alif Alfian"
+         onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=700&q=80'">
+
+    <div class="instructor-featured-info">
+      <p class="instructor-role">Head Instructor · All Levels</p>
+      <h3>Alif<br>Alfian</h3>
+      <p>Born and raised in Medewi, Bali, Alif has been surfing his entire life. The ocean isn't just where he works — it's where he grew up, learned, and found his purpose. Over the years he has turned that lifelong passion into a gift for others, guiding surfers of every level with patience, precision, and an unmatched feel for the water.</p>
+      <p>Whether it's your first wave or you're chasing your first barrel, Alif knows exactly how to get you there.</p>
+      <div class="instructor-badges">
+        <span class="badge">ISA Certified</span>
+        <span class="badge">All Levels</span>
+        <span class="badge">Born in Medewi</span>
+        <span class="badge">Lifelong Surfer</span>
       </div>
     </div>
   </div>
@@ -1056,42 +1389,32 @@
   <div class="merch-header">
     <p class="section-tag">Off Peak Gear</p>
     <h2 class="section-title">Merchandise</h2>
-    <p class="section-subtitle">Take a piece of Bali home. All products are sustainably made and proudly Off Peak.</p>
+    <p class="section-subtitle">Take a piece of Bali home. Sustainably made, proudly Off Peak.</p>
   </div>
-  <div class="merch-grid">
-    <div class="merch-card">
-      <img class="merch-img" src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=80" alt="Off Peak T-Shirt" loading="lazy">
-      <div class="merch-info">
-        <p class="merch-name">Classic Logo Tee</p>
-        <p class="merch-price">$35</p>
-      </div>
-    </div>
-    <div class="merch-card">
-      <img class="merch-img" src="https://images.unsplash.com/photo-1562157873-818bc0726f68?w=400&q=80" alt="Boardshorts" loading="lazy">
-      <div class="merch-info">
-        <p class="merch-name">Wave Boardshorts</p>
-        <p class="merch-price">$55</p>
-      </div>
-    </div>
-    <div class="merch-card">
-      <img class="merch-img" src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=400&q=80" alt="Off Peak Cap" loading="lazy">
-      <div class="merch-info">
-        <p class="merch-name">Off Peak Cap</p>
-        <p class="merch-price">$30</p>
-      </div>
-    </div>
-    <div class="merch-card">
-      <img class="merch-img" src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&q=80" alt="Beach Tote" loading="lazy">
-      <div class="merch-info">
-        <p class="merch-name">Beach Tote Bag</p>
-        <p class="merch-price">$25</p>
-      </div>
+
+  <div class="merch-featured">
+    <!--
+      T-SHIRT PHOTO: Speichere das Bild als "tshirt.jpg" in den Ordner
+      /Users/tom.jkl/offpeak-website/ — dann wird es automatisch angezeigt.
+    -->
+    <img class="merch-featured-img"
+         src="tshirt.png"
+         alt="Off Peak Graphic Tee"
+         onerror="this.src='https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80'">
+
+    <div class="merch-featured-info">
+      <p class="merch-tag-label">Our Signature Piece</p>
+      <h3>Off Peak<br>Graphic Tee</h3>
+      <p>Oversized fit, premium cotton. The leopard graphic on the back, Off Peak wave logo on the chest — a statement piece for those who know. "One set ahead."</p>
+      <div class="merch-price-tag">$35</div>
+      <a href="https://www.instagram.com/offpeakbali/" target="_blank" rel="noopener"
+         class="btn btn-outline-light">Order via Instagram &#8594;</a>
     </div>
   </div>
+
   <div class="merch-cta">
-    <a href="https://www.instagram.com/offpeakbali/" target="_blank" rel="noopener" class="btn btn-outline-light">
-      Shop on Instagram &#8594;
-    </a>
+    <a href="https://www.instagram.com/offpeakbali/" target="_blank" rel="noopener"
+       class="btn btn-outline-light">View all on Instagram &#8594;</a>
   </div>
 </section>
 
@@ -1117,7 +1440,7 @@
           <div class="contact-icon">&#128241;</div>
           <div class="contact-item-text">
             <strong>WhatsApp</strong>
-            <a href="https://wa.me/628123456789">+62 812 3456 789</a>
+            <a href="https://wa.me/628873006018">+62 887 3006 018</a>
           </div>
         </li>
         <li class="contact-item">
@@ -1131,7 +1454,7 @@
           <div class="contact-icon">&#128336;</div>
           <div class="contact-item-text">
             <strong>Sessions</strong>
-            <span>Daily: 08:00 – 18:00 WITA</span>
+            <span>Daily: 7:00 am – 4:00 pm WITA</span>
           </div>
         </li>
       </ul>
@@ -1191,7 +1514,7 @@
         <li><a href="#home">Home</a></li>
         <li><a href="#packages">Packages</a></li>
         <li><a href="#booking">Book Now</a></li>
-        <li><a href="#instructors">Instructors</a></li>
+        <li><a href="#instructors">Instructor</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -1219,50 +1542,123 @@
 
 <!-- ════════════ JAVASCRIPT ════════════ -->
 <script>
-// ── CALENDAR ──────────────────────────────────────────────────
+// ── SCROLL: hide scroll indicator ────────────────────────────
+window.addEventListener('scroll', function () {
+  const el = document.getElementById('heroScroll');
+  if (el) el.style.opacity = window.scrollY > 60 ? '0' : '1';
+}, { passive: true });
+
+// ── CONFIG ───────────────────────────────────────────────────
 const TODAY = new Date(2026, 4, 10);
 
-const BOOKED = {
-  '2026-05-11': ['08:00','10:00'],
-  '2026-05-12': ['08:00','14:00','16:00'],
-  '2026-05-13': ['10:00'],
-  '2026-05-15': ['08:00','10:00','14:00','16:00'],
-  '2026-05-16': ['08:00'],
-  '2026-05-18': ['10:00','14:00'],
-  '2026-05-19': ['08:00','10:00'],
-  '2026-05-20': ['14:00','16:00'],
-  '2026-05-22': ['08:00','10:00','14:00','16:00'],
-  '2026-05-24': ['08:00'],
-  '2026-05-25': ['08:00','10:00','14:00','16:00'],
-  '2026-05-28': ['10:00','16:00'],
+const PACKAGES = {
+  beginner:     { name: 'Beginner',     price: 450000, duration: 90,  unit: 'person'  },
+  intermediate: { name: 'Intermediate', price: 650000, duration: 150, unit: 'person'  },
+  advanced:     { name: 'Advanced',     price: 950000, duration: 180, unit: 'session', includesMedia: true },
 };
 
-const TIME_SLOTS = [
-  { time: '08:00', label: '08:00 – 10:00' },
-  { time: '10:00', label: '10:00 – 12:00' },
-  { time: '14:00', label: '14:00 – 16:00' },
-  { time: '16:00', label: '16:00 – 18:00' },
+const ADDONS = {
+  photos:    { label: '📷 Photos',          price: 150000 },
+  video:     { label: '🎥 Video',           price: 200000 },
+  bundle:    { label: '📷🎥 Photos + Video', price: 300000 },
+  transport: { label: '🛺 Transport',        price: 50000  },
+};
+
+// Fixed start times — each is a MINUTES-since-midnight value
+const START_TIMES = [
+  { time: '07:00', mins: 7*60      },
+  { time: '09:00', mins: 9*60      },
+  { time: '11:00', mins: 11*60     },
+  { time: '13:00', mins: 13*60     },
+  { time: '14:30', mins: 14*60+30  },
 ];
+const CLOSING = 17*60; // 17:00 (5 pm) hard closing for any session
 
-const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+// Demo bookings — each entry has start time + which package was booked
+const BOOKED = {
+  '2026-05-11': [{ start:'07:00', pkg:'beginner' }, { start:'09:00', pkg:'intermediate' }],
+  '2026-05-12': [{ start:'07:00', pkg:'advanced'  }, { start:'13:00', pkg:'beginner' }],
+  '2026-05-13': [{ start:'09:00', pkg:'intermediate' }],
+  '2026-05-15': [{ start:'07:00', pkg:'advanced'  }, { start:'11:00', pkg:'intermediate' }, { start:'13:00', pkg:'advanced' }],
+  '2026-05-16': [{ start:'07:00', pkg:'beginner' }],
+  '2026-05-18': [{ start:'09:00', pkg:'intermediate' }, { start:'11:00', pkg:'beginner' }],
+  '2026-05-19': [{ start:'07:00', pkg:'beginner' }, { start:'09:00', pkg:'intermediate' }, { start:'13:00', pkg:'advanced' }],
+  '2026-05-20': [{ start:'11:00', pkg:'beginner' }, { start:'13:00', pkg:'intermediate' }],
+  '2026-05-22': [{ start:'07:00', pkg:'advanced' }, { start:'11:00', pkg:'advanced' }],
+  '2026-05-24': [{ start:'07:00', pkg:'beginner' }],
+  '2026-05-25': [{ start:'07:00', pkg:'advanced' }, { start:'11:00', pkg:'advanced' }, { start:'14:30', pkg:'beginner' }],
+  '2026-05-28': [{ start:'09:00', pkg:'intermediate' }, { start:'13:00', pkg:'advanced' }],
+};
 
-let curMonth = TODAY.getMonth();
-let curYear  = TODAY.getFullYear();
-let selDate  = null;
-let selSlot  = null;
+const MONTHS = ['January','February','March','April','May','June',
+                'July','August','September','October','November','December'];
 
+// ── STATE ────────────────────────────────────────────────────
+const state = {
+  curMonth: TODAY.getMonth(),
+  curYear:  TODAY.getFullYear(),
+  selDate:  null,
+  selSlot:  null,
+  package:  'beginner',
+  people:   1,
+  addons:   new Set(),
+};
+
+// ── HELPERS ──────────────────────────────────────────────────
 function dateKey(y, m, d) {
   return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
 }
 
+function fmtIDR(n) { return 'Rp ' + n.toLocaleString('de-DE'); }
+
+function minsToTime(m) {
+  const h = Math.floor(m/60), mm = m%60;
+  return `${String(h).padStart(2,'0')}:${String(mm).padStart(2,'0')}`;
+}
+
+function parseTime(t) {
+  const [h, m] = t.split(':').map(Number);
+  return h*60 + m;
+}
+
+// Check if booking [start, start+dur] conflicts with existing bookings on `date`
+function hasConflict(date, startMins, pkg) {
+  const dur = PACKAGES[pkg].duration;
+  const end = startMins + dur;
+  const bookings = BOOKED[date] || [];
+  for (const b of bookings) {
+    const bStart = parseTime(b.start);
+    const bEnd   = bStart + PACKAGES[b.pkg].duration;
+    if (startMins < bEnd && bStart < end) return true;
+  }
+  return false;
+}
+
+// Returns valid start times for a given package on a given date
+function validStartsFor(pkg) {
+  const dur = PACKAGES[pkg].duration;
+  return START_TIMES.filter(s => s.mins + dur <= CLOSING);
+}
+
+// Counts how many slots are still available for `pkg` on `date`
+function freeCountForDay(date, pkg) {
+  const valid = validStartsFor(pkg);
+  let free = 0;
+  for (const s of valid) {
+    if (!hasConflict(date, s.mins, pkg)) free++;
+  }
+  return { free, total: valid.length };
+}
+
+// ── CALENDAR RENDER ──────────────────────────────────────────
 function renderCalendar() {
-  document.getElementById('calTitle').textContent = `${MONTHS[curMonth]} ${curYear}`;
+  document.getElementById('calTitle').textContent = `${MONTHS[state.curMonth]} ${state.curYear}`;
   const grid = document.getElementById('calDays');
   grid.innerHTML = '';
 
-  const firstDay   = new Date(curYear, curMonth, 1).getDay();
-  const daysInMonth = new Date(curYear, curMonth + 1, 0).getDate();
-  const offset     = (firstDay + 6) % 7;
+  const firstDay    = new Date(state.curYear, state.curMonth, 1).getDay();
+  const daysInMonth = new Date(state.curYear, state.curMonth + 1, 0).getDate();
+  const offset      = (firstDay + 6) % 7;
 
   for (let i = 0; i < offset; i++) {
     const el = document.createElement('div');
@@ -1270,138 +1666,258 @@ function renderCalendar() {
     grid.appendChild(el);
   }
 
+  const todayMid = new Date(TODAY.getFullYear(), TODAY.getMonth(), TODAY.getDate());
+
   for (let d = 1; d <= daysInMonth; d++) {
-    const key  = dateKey(curYear, curMonth, d);
-    const date = new Date(curYear, curMonth, d);
-    const isPast = date < new Date(TODAY.getFullYear(), TODAY.getMonth(), TODAY.getDate());
+    const key    = dateKey(state.curYear, state.curMonth, d);
+    const date   = new Date(state.curYear, state.curMonth, d);
+    const isPast = date < todayMid;
     const isToday = date.toDateString() === TODAY.toDateString();
-    const booked = BOOKED[key] || [];
-    const isFull = booked.length >= TIME_SLOTS.length;
-    const isPartial = booked.length > 0 && !isFull;
+
+    const { free, total } = freeCountForDay(key, state.package);
+    const isFull = free === 0;
+    const isLow  = free > 0 && free <= 2;
+    const isOpen = free > 2;
 
     const el = document.createElement('div');
     el.textContent = d;
 
     const cls = ['cal-day'];
-    if (isPast)       cls.push('past');
-    else if (isFull)  cls.push('full');
-    else              cls.push('available');
-    if (isToday)    cls.push('today');
-    if (isPartial)  cls.push('partial');
-    if (selDate === key) cls.push('selected');
-
-    el.className = cls.join(' ');
+    if (isPast)      cls.push('past');
+    else if (isFull) cls.push('full');
+    else             cls.push('available');
 
     if (!isPast && !isFull) {
-      el.addEventListener('click', () => selectDate(key, d));
+      cls.push('has-dot');
+      cls.push(isLow ? 'low' : 'open');
     }
+
+    if (isToday) cls.push('today');
+    if (state.selDate === key) cls.push('selected');
+
+    el.className = cls.join(' ');
+    if (!isPast && !isFull) el.addEventListener('click', () => selectDate(key, d));
     grid.appendChild(el);
   }
 }
 
 function selectDate(key, d) {
-  selDate = key;
-  selSlot = null;
+  state.selDate = key;
+  state.selSlot = null;
   resetSlotDisplay();
   renderCalendar();
   renderSlots(key, d);
 }
 
 function renderSlots(key, d) {
-  const wrap = document.getElementById('slotsWrap');
   document.getElementById('slotsDate').textContent =
-    `Available slots — ${MONTHS[curMonth]} ${d}, ${curYear}`;
-  wrap.classList.add('visible');
+    `Available slots — ${MONTHS[state.curMonth]} ${d}, ${state.curYear} · ${PACKAGES[state.package].name} (${PACKAGES[state.package].duration} min)`;
+  document.getElementById('slotsWrap').classList.add('visible');
 
-  const grid  = document.getElementById('slotsGrid');
+  const grid = document.getElementById('slotsGrid');
   grid.innerHTML = '';
-  const booked = BOOKED[key] || [];
 
-  TIME_SLOTS.forEach(slot => {
-    const isBooked = booked.includes(slot.time);
+  const valid = validStartsFor(state.package);
+
+  valid.forEach(slot => {
+    const conflict = hasConflict(key, slot.mins, state.package);
+    const endMins  = slot.mins + PACKAGES[state.package].duration;
+    const label    = `${slot.time} – ${minsToTime(endMins)}`;
+
     const el = document.createElement('div');
-    el.className = `slot ${isBooked ? 'booked' : 'available'}`;
-    if (selSlot === slot.time) el.classList.add('selected');
+    el.className = `slot ${conflict ? 'booked' : 'available'}`;
+    if (state.selSlot === slot.time) el.classList.add('selected');
     el.innerHTML = `
-      <div class="slot-time">${slot.label}</div>
-      <div class="slot-status">${isBooked ? 'Fully booked' : 'Available'}</div>`;
-    if (!isBooked) {
-      el.addEventListener('click', function() { selectSlot(slot, key, d, this); });
-    }
+      <div class="slot-time">${label}</div>
+      <div class="slot-status">${conflict ? 'Unavailable' : 'Available'}</div>`;
+    if (!conflict) el.addEventListener('click', function () { selectSlot(slot, label, d, this); });
     grid.appendChild(el);
   });
 }
 
-function selectSlot(slot, key, d, el) {
-  selSlot = slot.time;
+function selectSlot(slot, label, d, el) {
+  state.selSlot = slot.time;
   document.querySelectorAll('.slot').forEach(s => s.classList.remove('selected'));
   el.classList.add('selected');
 
   const display = document.getElementById('slotDisplay');
   display.className = 'selected-slot-display';
   display.innerHTML = `
-    <strong style="display:block;font-family:'Montserrat',sans-serif;font-size:0.75rem;color:var(--highlight);margin-bottom:0.4rem;letter-spacing:0.1em;text-transform:uppercase">Selected Slot</strong>
-    &#128197; ${MONTHS[curMonth]} ${d}, ${curYear}<br>
-    &#128336; ${slot.label}
-  `;
+    <strong style="display:block;font-family:'Montserrat',sans-serif;font-size:0.72rem;
+      color:var(--highlight);margin-bottom:0.4rem;letter-spacing:0.12em;text-transform:uppercase">
+      Selected Slot
+    </strong>
+    &#128197; ${MONTHS[state.curMonth]} ${d}, ${state.curYear}<br>
+    &#128336; ${label}`;
 }
 
 function resetSlotDisplay() {
-  const display = document.getElementById('slotDisplay');
-  display.className = 'selected-slot-display empty';
-  display.textContent = 'No slot selected yet';
+  const d = document.getElementById('slotDisplay');
+  d.className = 'selected-slot-display empty';
+  d.textContent = 'No slot selected yet';
 }
 
 document.getElementById('prevMonth').addEventListener('click', () => {
-  curMonth--;
-  if (curMonth < 0) { curMonth = 11; curYear--; }
-  selDate = null; selSlot = null;
+  state.curMonth--;
+  if (state.curMonth < 0) { state.curMonth = 11; state.curYear--; }
+  state.selDate = null; state.selSlot = null;
   resetSlotDisplay();
   document.getElementById('slotsWrap').classList.remove('visible');
   renderCalendar();
 });
 
 document.getElementById('nextMonth').addEventListener('click', () => {
-  curMonth++;
-  if (curMonth > 11) { curMonth = 0; curYear++; }
-  selDate = null; selSlot = null;
+  state.curMonth++;
+  if (state.curMonth > 11) { state.curMonth = 0; state.curYear++; }
+  state.selDate = null; state.selSlot = null;
   resetSlotDisplay();
   document.getElementById('slotsWrap').classList.remove('visible');
   renderCalendar();
 });
 
-renderCalendar();
+// ── ADD-ON TOGGLE (multi-select with media-exclusivity) ──────
+function toggleAddon(addon) {
+  const mediaGroup = ['photos','video','bundle'];
 
-// ── PAYMENT TOGGLE ────────────────────────────────────────────
+  // Advanced auto-includes media → ignore media toggles
+  if (state.package === 'advanced' && mediaGroup.includes(addon)) return;
+
+  if (state.addons.has(addon)) {
+    state.addons.delete(addon);
+  } else {
+    // Only one media option may be active at a time
+    if (mediaGroup.includes(addon)) {
+      mediaGroup.forEach(m => state.addons.delete(m));
+    }
+    state.addons.add(addon);
+  }
+  syncAddonUI();
+  updateTotal();
+}
+
+function syncAddonUI() {
+  // Sync both top section + booking panel
+  document.querySelectorAll('[data-addon]').forEach(el => {
+    const a = el.dataset.addon;
+    el.classList.toggle('active', state.addons.has(a));
+
+    // For Advanced: media add-ons show as "Included"
+    const isMedia = ['photos','video','bundle'].includes(a);
+    if (state.package === 'advanced' && isMedia) {
+      el.classList.add('disabled');
+      // For top cards: keep original price
+      // For booking-panel cards: show "Included"
+      if (el.classList.contains('booking-addon')) {
+        const priceEl = el.querySelector('.booking-addon-price');
+        if (priceEl && !priceEl.dataset.original) priceEl.dataset.original = priceEl.textContent;
+        if (priceEl) priceEl.textContent = 'Included';
+        el.classList.add('included');
+      }
+    } else {
+      el.classList.remove('disabled', 'included');
+      if (el.classList.contains('booking-addon')) {
+        const priceEl = el.querySelector('.booking-addon-price');
+        if (priceEl && priceEl.dataset.original) priceEl.textContent = priceEl.dataset.original;
+      }
+    }
+  });
+}
+
+// ── PAYMENT TOGGLE ───────────────────────────────────────────
 function selectPayment(el) {
   document.querySelectorAll('.pay-option').forEach(e => e.classList.remove('active'));
   el.classList.add('active');
 }
 
-// ── FORMS ─────────────────────────────────────────────────────
-document.getElementById('bookingForm').addEventListener('submit', function(e) {
+// ── PACKAGE PICKER (from cards) ──────────────────────────────
+function bookPackage(pkg) {
+  state.package = pkg;
+  document.getElementById('packageSelect').value = pkg;
+  // If Advanced, drop any media add-ons (it's included)
+  if (pkg === 'advanced') {
+    state.addons.delete('photos');
+    state.addons.delete('video');
+    state.addons.delete('bundle');
+  }
+  syncAddonUI();
+  state.selSlot = null;
+  resetSlotDisplay();
+  document.getElementById('slotsWrap').classList.remove('visible');
+  renderCalendar();
+  updateTotal();
+}
+
+// ── BOOKING PANEL EVENTS ─────────────────────────────────────
+function onPackageChange() {
+  bookPackage(document.getElementById('packageSelect').value);
+}
+function onPeopleChange() {
+  state.people = parseInt(document.getElementById('peopleSelect').value, 10);
+  updateTotal();
+}
+
+// ── TOTAL CALCULATION ────────────────────────────────────────
+function updateTotal() {
+  const pkg = PACKAGES[state.package];
+  const pkgSubtotal = pkg.price * state.people;
+
+  const rows = [];
+  rows.push({
+    label: `${pkg.name} × ${state.people} ${state.people === 1 ? 'person' : 'people'}`,
+    amount: pkgSubtotal,
+  });
+
+  // Media add-ons (skipped if Advanced — included)
+  ['photos','video','bundle'].forEach(a => {
+    if (state.addons.has(a) && state.package !== 'advanced') {
+      rows.push({ label: ADDONS[a].label, amount: ADDONS[a].price });
+    }
+  });
+  if (state.package === 'advanced') {
+    rows.push({ label: '📷🎥 Photos + Video', amount: 0, included: true });
+  }
+  if (state.addons.has('transport')) {
+    rows.push({ label: ADDONS.transport.label, amount: ADDONS.transport.price });
+  }
+
+  const grandTotal = rows.reduce((s, r) => s + r.amount, 0);
+
+  const html = rows.map(r => `
+    <div class="total-row">
+      <span>${r.label}</span>
+      <span>${r.included ? '<span style="color:var(--green)">Included</span>' : fmtIDR(r.amount)}</span>
+    </div>`).join('') + `
+    <div class="total-row grand">
+      <span>Total</span>
+      <span class="total-amount">${fmtIDR(grandTotal)}</span>
+    </div>`;
+
+  document.getElementById('bookingTotal').innerHTML = html;
+}
+
+// ── FORMS ────────────────────────────────────────────────────
+document.getElementById('bookingForm').addEventListener('submit', function (e) {
   e.preventDefault();
   document.getElementById('bookingSuccess').style.display = 'block';
   this.style.display = 'none';
 });
 
-document.getElementById('contactForm').addEventListener('submit', function(e) {
+document.getElementById('contactForm').addEventListener('submit', function (e) {
   e.preventDefault();
   document.getElementById('contactSuccess').style.display = 'block';
   this.querySelector('button[type=submit]').disabled = true;
 });
 
-// ── MOBILE NAV ────────────────────────────────────────────────
+// ── MOBILE NAV ───────────────────────────────────────────────
 const hamburger = document.getElementById('hamburger');
 const navLinks  = document.getElementById('navLinks');
+hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
 
-hamburger.addEventListener('click', () => {
-  navLinks.classList.toggle('open');
-});
-
-navLinks.querySelectorAll('a').forEach(a => {
-  a.addEventListener('click', () => navLinks.classList.remove('open'));
-});
+// ── INIT ─────────────────────────────────────────────────────
+renderCalendar();
+syncAddonUI();
+updateTotal();
 </script>
 </body>
 </html>
