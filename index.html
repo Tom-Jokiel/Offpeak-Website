@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Off Peak Surf Bali — Surf School Canggu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Lora:ital,wght@0,400;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #E8E4DC;
+      --cream-light: #F3F0EA;
+      --charcoal: #2C2927;
+      --charcoal-light: #4A4642;
+      --highlight: #C8714A;
+      --highlight-light: rgba(200,113,74,0.12);
+      --white: #FFFFFF;
+      --shadow: 0 4px 32px rgba(44,41,39,0.12);
+      --radius: 14px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream-light);
+      color: var(--charcoal);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(232,228,220,0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(44,41,39,0.07);
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--charcoal);
+    }
+
+    .nav-logo svg { width: 38px; height: 38px; }
+
+    .logo-text { line-height: 1.1; }
+    .logo-text .brand {
+      display: block;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
+    }
+    .logo-text .sub {
+      display: block;
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      color: var(--charcoal-light);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--charcoal);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--highlight); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.6rem 1.4rem;
+      border-radius: 100px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    .btn-primary { background: var(--charcoal); color: var(--cream); }
+    .btn-primary:hover { background: var(--highlight); transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--charcoal); border: 2px solid var(--charcoal); }
+    .btn-outline:hover { background: var(--charcoal); color: var(--cream); }
+    .btn-highlight { background: var(--highlight); color: var(--white); }
+    .btn-highlight:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-outline-light { background: transparent; color: var(--cream); border: 2px solid rgba(232,228,220,0.45); }
+    .btn-outline-light:hover { background: rgba(232,228,220,0.15); border-color: var(--cream); }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--charcoal); transition: all 0.3s; }
+
+    /* ── HERO ── */
+    #home {
+      position: relative;
+      height: 100vh;
+      min-height: 620px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=1800&q=80') center/cover no-repeat;
+    }
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg, rgba(44,41,39,0.75) 0%, rgba(44,41,39,0.38) 55%, rgba(44,41,39,0.1) 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 0 clamp(1.5rem, 8vw, 8rem);
+      max-width: 700px;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      background: var(--highlight);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.38rem 1rem;
+      border-radius: 100px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: clamp(3.2rem, 9vw, 7rem);
+      line-height: 0.93;
+      color: var(--cream);
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title em {
+      display: block;
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 0.38em;
+      text-transform: none;
+      color: rgba(232,228,220,0.75);
+      letter-spacing: 0.05em;
+      margin-top: 0.3em;
+    }
+
+    .hero-desc {
+      font-size: 1rem;
+      color: rgba(232,228,220,0.82);
+      line-height: 1.75;
+      margin-bottom: 2.5rem;
+      max-width: 420px;
+    }
+
+    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      color: rgba(232,228,220,0.5);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      animation: bounce 2.2s ease-in-out infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-8px); }
+    }
+
+    /* ── SECTION COMMON ── */
+    section { padding: clamp(4.5rem, 9vw, 9rem) clamp(1.5rem, 5vw, 4rem); }
+
+    .section-tag {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--highlight);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1.03;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .section-subtitle {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--charcoal-light);
+      max-width: 560px;
+    }
+
+    /* ── ABOUT ── */
+    #about { background: var(--charcoal); color: var(--cream); }
+    #about .section-title { color: var(--cream); }
+    #about .section-subtitle { color: rgba(232,228,220,0.65); max-width: 100%; }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .about-image { border-radius: var(--radius); overflow: hidden; aspect-ratio: 4/5; }
+    .about-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .stat { border-top: 2px solid var(--highlight); padding-top: 1rem; }
+    .stat-number { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 2.4rem; color: var(--cream); line-height: 1; }
+    .stat-label { font-size: 0.78rem; color: rgba(232,228,220,0.55); margin-top: 0.3rem; }
+
+    /* ── PACKAGES ── */
+    #packages { background: var(--cream-light); }
+
+    .packages-header { max-width: 1200px; margin: 0 auto 3.5rem; }
+
+    .packages-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .package-card {
+      background: var(--cream);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid rgba(44,41,39,0.07);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .package-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+    .package-card.featured { background: var(--charcoal); color: var(--cream); }
+
+    .package-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+
+    .package-body { padding: 1.75rem; }
+
+    .package-level {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--highlight);
+      margin-bottom: 0.5rem;
+    }
+    .package-name { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.4rem; margin-bottom: 0.75rem; }
+    .package-desc { font-size: 0.875rem; line-height: 1.72; color: var(--charcoal-light); margin-bottom: 1.25rem; }
+    .package-card.featured .package-desc { color: rgba(232,228,220,0.65); }
+
+    .package-features { list-style: none; margin-bottom: 1.5rem; }
+    .package-features li {
+      font-size: 0.825rem;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid rgba(44,41,39,0.07);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .package-card.featured .package-features li { border-bottom-color: rgba(232,228,220,0.1); }
+    .package-features li::before { content: '✓'; color: var(--highlight); font-weight: 700; flex-shrink: 0; }
+
+    .package-price { display: flex; align-items: baseline; gap: 0.25rem; margin-bottom: 1.25rem; }
+    .price-amount { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 2rem; }
+    .price-per { font-size: 0.8rem; color: var(--charcoal-light); }
+    .package-card.featured .price-per { color: rgba(232,228,220,0.55); }
+
+    /* ── BOOKING ── */
+    #booking { background: var(--cream); }
+
+    .booking-container { max-width: 1100px; margin: 0 auto; }
+    .booking-header { margin-bottom: 3rem; }
+
+    .booking-layout {
+      display: grid;
+      grid-template-columns: 1fr 370px;
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    .calendar-wrap {
+      background: var(--cream-light);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      border: 1px solid rgba(44,41,39,0.07);
+    }
+
+    .cal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
+    .cal-title { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.1rem; }
+    .cal-nav {
+      background: none;
+      border: 1px solid rgba(44,41,39,0.15);
+      border-radius: 50%;
+      width: 34px;
+      height: 34px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: all 0.2s;
+      color: var(--charcoal);
+    }
+    .cal-nav:hover { background: var(--charcoal); color: var(--cream); border-color: var(--charcoal); }
+
+    .cal-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      margin-bottom: 0.5rem;
+    }
+    .cal-weekday {
+      text-align: center;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--charcoal-light);
+      padding: 0.4rem 0;
+    }
+
+    .cal-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+
+    .cal-day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      border: 2px solid transparent;
+      position: relative;
+    }
+    .cal-day.empty { cursor: default; }
+    .cal-day.past { color: rgba(44,41,39,0.22); cursor: default; }
+    .cal-day.available:hover { background: var(--highlight-light); border-color: var(--highlight); }
+    .cal-day.partial::after {
+      content: '';
+      position: absolute;
+      bottom: 3px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--highlight);
+    }
+    .cal-day.full { color: rgba(44,41,39,0.3); background: rgba(44,41,39,0.04); cursor: not-allowed; text-decoration: line-through; }
+    .cal-day.selected { background: var(--charcoal); color: var(--cream); border-color: var(--charcoal); }
+    .cal-day.today { font-weight: 800; color: var(--highlight); }
+    .cal-day.selected.today { color: var(--cream); }
+
+    .cal-legend {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+    .legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.7rem; color: var(--charcoal-light); }
+    .legend-dot { width: 9px; height: 9px; border-radius: 50%; }
+
+    .slots-wrap { margin-top: 1rem; display: none; }
+    .slots-wrap.visible { display: block; }
+
+    .slots-date {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      margin-bottom: 1rem;
+      color: var(--charcoal-light);
+    }
+
+    .slots-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+
+    .slot {
+      padding: 0.75rem;
+      border-radius: 9px;
+      border: 1.5px solid rgba(44,41,39,0.11);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .slot-time { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.88rem; }
+    .slot-status { font-size: 0.7rem; margin-top: 0.2rem; color: var(--charcoal-light); }
+    .slot.available:hover { border-color: var(--highlight); background: var(--highlight-light); }
+    .slot.booked { background: rgba(44,41,39,0.04); border-color: rgba(44,41,39,0.07); cursor: not-allowed; }
+    .slot.booked .slot-time { color: rgba(44,41,39,0.3); }
+    .slot.booked .slot-status { color: rgba(44,41,39,0.25); }
+    .slot.selected { background: var(--charcoal); border-color: var(--charcoal); color: var(--cream); }
+    .slot.selected .slot-status { color: rgba(232,228,220,0.65); }
+
+    /* Booking panel */
+    .booking-panel {
+      background: var(--charcoal);
+      border-radius: var(--radius);
+      padding: 2rem;
+      color: var(--cream);
+      position: sticky;
+      top: 88px;
+    }
+    .panel-title { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.2rem; margin-bottom: 0.4rem; }
+    .panel-sub { font-size: 0.78rem; color: rgba(232,228,220,0.5); margin-bottom: 1.75rem; }
+
+    .form-group { margin-bottom: 0.9rem; }
+    .form-group label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(232,228,220,0.55);
+      margin-bottom: 0.35rem;
+    }
+    .form-control {
+      width: 100%;
+      background: rgba(232,228,220,0.08);
+      border: 1px solid rgba(232,228,220,0.13);
+      border-radius: 8px;
+      padding: 0.6rem 0.85rem;
+      color: var(--cream);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .form-control::placeholder { color: rgba(232,228,220,0.28); }
+    .form-control:focus { border-color: var(--highlight); }
+    .form-control option { background: #2C2927; }
+
+    .selected-slot-display {
+      background: rgba(200,113,74,0.12);
+      border: 1px solid rgba(200,113,74,0.28);
+      border-radius: 8px;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      font-size: 0.82rem;
+      line-height: 1.6;
+    }
+    .selected-slot-display.empty { color: rgba(232,228,220,0.35); text-align: center; font-style: italic; }
+
+    .payment-options { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 1.1rem; }
+    .pay-option {
+      padding: 0.6rem;
+      border: 1.5px solid rgba(232,228,220,0.13);
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+      font-size: 0.78rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      color: rgba(232,228,220,0.65);
+      user-select: none;
+    }
+    .pay-option:hover, .pay-option.active { border-color: var(--highlight); color: var(--cream); background: rgba(200,113,74,0.14); }
+
+    /* ── INSTRUCTORS ── */
+    #instructors { background: var(--cream-light); }
+
+    .instructors-header { max-width: 1200px; margin: 0 auto 3.5rem; }
+
+    .instructors-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .instructor-card {
+      background: var(--cream);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid rgba(44,41,39,0.07);
+      transition: transform 0.3s;
+    }
+    .instructor-card:hover { transform: translateY(-5px); }
+    .instructor-img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; }
+    .instructor-info { padding: 1.25rem; }
+    .instructor-name { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1rem; margin-bottom: 0.2rem; }
+    .instructor-role { font-size: 0.72rem; color: var(--highlight); font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 0.6rem; }
+    .instructor-bio { font-size: 0.8rem; line-height: 1.65; color: var(--charcoal-light); }
+
+    /* ── MERCHANDISE ── */
+    #merchandise { background: var(--charcoal); color: var(--cream); }
+    #merchandise .section-title { color: var(--cream); }
+    #merchandise .section-subtitle { color: rgba(232,228,220,0.6); }
+
+    .merch-header { max-width: 1200px; margin: 0 auto 3.5rem; }
+
+    .merch-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      max-width: 1200px;
+      margin: 0 auto 3rem;
+    }
+
+    .merch-card {
+      background: rgba(232,228,220,0.06);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid rgba(232,228,220,0.09);
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    .merch-card:hover { background: rgba(232,228,220,0.11); transform: translateY(-4px); }
+    .merch-img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+    .merch-info { padding: 1rem; }
+    .merch-name { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.88rem; margin-bottom: 0.25rem; }
+    .merch-price { font-size: 0.85rem; color: var(--highlight); font-weight: 700; }
+    .merch-cta { text-align: center; }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--cream-light); }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      max-width: 1100px;
+      margin: 3rem auto 0;
+      align-items: start;
+    }
+
+    .contact-info h3 { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.4rem; margin-bottom: 1rem; }
+    .contact-info p { font-size: 0.9rem; line-height: 1.75; color: var(--charcoal-light); margin-bottom: 2rem; }
+
+    .contact-items { list-style: none; }
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(44,41,39,0.08);
+    }
+    .contact-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--highlight-light);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .contact-item-text strong { display: block; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--charcoal-light); margin-bottom: 0.1rem; }
+    .contact-item-text a, .contact-item-text span { font-size: 0.9rem; color: var(--charcoal); text-decoration: none; }
+    .contact-item-text a:hover { color: var(--highlight); }
+
+    .social-links { display: flex; gap: 0.75rem; margin-top: 1.5rem; flex-wrap: wrap; }
+    .social-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1.1rem;
+      background: var(--cream);
+      border: 1px solid rgba(44,41,39,0.1);
+      border-radius: 100px;
+      text-decoration: none;
+      color: var(--charcoal);
+      font-size: 0.78rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .social-link:hover { background: var(--charcoal); color: var(--cream); border-color: var(--charcoal); }
+
+    .contact-form {
+      background: var(--cream);
+      padding: 2rem;
+      border-radius: var(--radius);
+      border: 1px solid rgba(44,41,39,0.07);
+    }
+    .contact-form h3 { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.2rem; margin-bottom: 1.5rem; }
+
+    .form-group-light { margin-bottom: 1rem; }
+    .form-group-light label { display: block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--charcoal-light); margin-bottom: 0.35rem; }
+    .form-control-light {
+      width: 100%;
+      background: var(--cream-light);
+      border: 1px solid rgba(44,41,39,0.11);
+      border-radius: 8px;
+      padding: 0.6rem 0.85rem;
+      color: var(--charcoal);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-control-light:focus { border-color: var(--highlight); }
+    textarea.form-control-light { resize: vertical; min-height: 100px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--charcoal);
+      color: var(--cream);
+      padding: 3.5rem clamp(1.5rem, 5vw, 4rem) 2rem;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid rgba(232,228,220,0.08);
+    }
+    .footer-brand p { font-size: 0.85rem; line-height: 1.75; color: rgba(232,228,220,0.5); margin-top: 1rem; max-width: 270px; }
+    .footer-col h4 { font-family: 'Montserrat', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(232,228,220,0.45); margin-bottom: 1rem; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.5rem; }
+    .footer-col ul li a { font-size: 0.875rem; color: rgba(232,228,220,0.7); text-decoration: none; transition: color 0.2s; }
+    .footer-col ul li a:hover { color: var(--highlight); }
+    .footer-bottom { max-width: 1200px; margin: 1.5rem auto 0; display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; color: rgba(232,228,220,0.3); }
+
+    /* ── SUCCESS ── */
+    .success-msg {
+      background: rgba(72,160,120,0.12);
+      border: 1px solid rgba(72,160,120,0.3);
+      border-radius: 8px;
+      padding: 0.9rem;
+      text-align: center;
+      color: #2D7A58;
+      font-size: 0.875rem;
+      display: none;
+      margin-top: 0.75rem;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .instructors-grid { grid-template-columns: repeat(2, 1fr); }
+      .merch-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        inset: 70px 0 0 0;
+        background: var(--cream);
+        padding: 2.5rem 2rem;
+        gap: 1.5rem;
+        z-index: 99;
+      }
+      .hamburger { display: flex; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .packages-grid { grid-template-columns: 1fr; }
+      .booking-layout { grid-template-columns: 1fr; }
+      .booking-panel { position: static; }
+      .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    @media (max-width: 540px) {
+      .instructors-grid { grid-template-columns: 1fr; }
+      .merch-grid { grid-template-columns: 1fr; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════ NAV ════════════ -->
+<nav>
+  <a href="#home" class="nav-logo">
+    <svg viewBox="0 0 40 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3 30 Q9 10 18 18 Q23 22 28 15 Q33 8 38 5" stroke="#2C2927" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <path d="M3 34 Q10 14 20 22 Q25 26 30 19 Q34 13 38 9" stroke="#2C2927" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.6"/>
+      <path d="M3 38 Q11 18 22 26 Q27 30 32 22 Q36 17 38 13" stroke="#2C2927" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.35"/>
+    </svg>
+    <div class="logo-text">
+      <span class="brand">OFF PEAK</span>
+      <span class="sub">surf bali</span>
+    </div>
+  </a>
+
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#packages">Packages</a></li>
+    <li><a href="#instructors">Instructors</a></li>
+    <li><a href="#merchandise">Merch</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#booking" class="btn btn-primary">Book Now</a></li>
+  </ul>
+
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ════════════ HERO ════════════ -->
+<section id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <span class="hero-tag">Canggu, Bali</span>
+    <h1 class="hero-title">
+      Catch<br>Your Wave
+      <em>Surf School &amp; Coaching</em>
+    </h1>
+    <p class="hero-desc">Learn to surf in one of the world's best surf destinations. Beginner, intermediate, or advanced — we'll take you to the next level in the warm waters of Canggu.</p>
+    <div class="hero-ctas">
+      <a href="#booking" class="btn btn-highlight">Book a Lesson</a>
+      <a href="#packages" class="btn btn-outline-light">View Packages</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path d="M7 2v10M2 7l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ════════════ ABOUT ════════════ -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-image">
+      <img src="https://images.unsplash.com/photo-1455729552865-3658a5d39692?w=800&q=80" alt="Surfing in Bali" loading="lazy">
+    </div>
+    <div>
+      <p class="section-tag">Who We Are</p>
+      <h2 class="section-title" style="color:var(--cream)">Born From<br>the Ocean</h2>
+      <p class="section-subtitle" style="margin-bottom:1.5rem">Off Peak Surf Bali is Canggu's home for authentic surf experiences. We believe the best sessions happen away from the crowds — at dawn, at dusk, at the moments when the ocean truly belongs to you.</p>
+      <p class="section-subtitle">Our team of passionate, certified instructors has helped hundreds of students find their feet on a board. We keep groups small, sessions personal, and the vibes exactly right.</p>
+      <div class="about-stats">
+        <div class="stat">
+          <div class="stat-number">500+</div>
+          <div class="stat-label">Students taught</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">6</div>
+          <div class="stat-label">Expert coaches</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">5★</div>
+          <div class="stat-label">Average rating</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ PACKAGES ════════════ -->
+<section id="packages">
+  <div class="packages-header">
+    <p class="section-tag">What We Offer</p>
+    <h2 class="section-title">Surf Packages</h2>
+    <p class="section-subtitle">From your very first wave to advanced coaching — we have the right session for your level.</p>
+  </div>
+  <div class="packages-grid">
+
+    <!-- Beginner -->
+    <div class="package-card">
+      <img class="package-img" src="https://images.unsplash.com/photo-1519904981063-b0cf448d9a1f?w=600&q=80" alt="Beginner surf lesson" loading="lazy">
+      <div class="package-body">
+        <p class="package-level">Level 01</p>
+        <h3 class="package-name">Beginner</h3>
+        <p class="package-desc">Never surfed before? Perfect. We'll get you on your feet and riding waves on day one. Safety, fundamentals, and pure stoke — all in two hours.</p>
+        <ul class="package-features">
+          <li>2-hour guided session</li>
+          <li>Surfboard &amp; rash guard included</li>
+          <li>Max 4 students per instructor</li>
+          <li>Beach safety &amp; theory briefing</li>
+          <li>Post-session photo &amp; video</li>
+        </ul>
+        <div class="package-price">
+          <span class="price-amount">$45</span>
+          <span class="price-per">/ person</span>
+        </div>
+        <a href="#booking" class="btn btn-outline" style="width:100%;justify-content:center">Book Now</a>
+      </div>
+    </div>
+
+    <!-- Intermediate (featured) -->
+    <div class="package-card featured">
+      <img class="package-img" src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=600&q=80" alt="Intermediate surf lesson" loading="lazy">
+      <div class="package-body">
+        <p class="package-level">Level 02 · Most Popular</p>
+        <h3 class="package-name">Intermediate</h3>
+        <p class="package-desc">You can pop up, but want to actually surf. We work on positioning, wave selection, timing, and start shaping your personal style.</p>
+        <ul class="package-features">
+          <li>2.5-hour coached session</li>
+          <li>All equipment included</li>
+          <li>Max 3 students per instructor</li>
+          <li>Wave reading &amp; line-up etiquette</li>
+          <li>HD video analysis &amp; feedback</li>
+        </ul>
+        <div class="package-price">
+          <span class="price-amount">$65</span>
+          <span class="price-per">/ person</span>
+        </div>
+        <a href="#booking" class="btn btn-highlight" style="width:100%;justify-content:center">Book Now</a>
+      </div>
+    </div>
+
+    <!-- Advanced -->
+    <div class="package-card">
+      <img class="package-img" src="https://images.unsplash.com/photo-1531722569936-825d4ebd1cd9?w=600&q=80" alt="Advanced surf coaching" loading="lazy">
+      <div class="package-body">
+        <p class="package-level">Level 03</p>
+        <h3 class="package-name">Advanced</h3>
+        <p class="package-desc">Private 1-on-1 coaching for surfers pushing their limits. Turns, aerials, barrel hunting — we go where the swell takes us.</p>
+        <ul class="package-features">
+          <li>3-hour private session</li>
+          <li>Premium equipment options</li>
+          <li>Dedicated personal coach</li>
+          <li>Spot selection based on swell</li>
+          <li>Full session video edit</li>
+        </ul>
+        <div class="package-price">
+          <span class="price-amount">$120</span>
+          <span class="price-per">/ session</span>
+        </div>
+        <a href="#booking" class="btn btn-outline" style="width:100%;justify-content:center">Book Now</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════ BOOKING ════════════ -->
+<section id="booking">
+  <div class="booking-container">
+    <div class="booking-header">
+      <p class="section-tag">Reserve Your Spot</p>
+      <h2 class="section-title">Book a Session</h2>
+      <p class="section-subtitle">Pick a date, choose your time slot, and fill in your details. We'll confirm within a few hours.</p>
+    </div>
+
+    <div class="booking-layout">
+      <!-- Left: calendar + slots -->
+      <div>
+        <div class="calendar-wrap">
+          <div class="cal-header">
+            <button class="cal-nav" id="prevMonth">&#8249;</button>
+            <div class="cal-title" id="calTitle"></div>
+            <button class="cal-nav" id="nextMonth">&#8250;</button>
+          </div>
+          <div class="cal-weekdays">
+            <div class="cal-weekday">Mon</div>
+            <div class="cal-weekday">Tue</div>
+            <div class="cal-weekday">Wed</div>
+            <div class="cal-weekday">Thu</div>
+            <div class="cal-weekday">Fri</div>
+            <div class="cal-weekday">Sat</div>
+            <div class="cal-weekday">Sun</div>
+          </div>
+          <div class="cal-days" id="calDays"></div>
+          <div class="cal-legend">
+            <div class="legend-item">
+              <div class="legend-dot" style="background:var(--highlight)"></div>
+              Slots available
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background:rgba(44,41,39,0.18)"></div>
+              Fully booked
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background:var(--charcoal)"></div>
+              Selected
+            </div>
+          </div>
+        </div>
+
+        <!-- Time slots -->
+        <div class="slots-wrap calendar-wrap" id="slotsWrap">
+          <div class="slots-date" id="slotsDate"></div>
+          <div class="slots-grid" id="slotsGrid"></div>
+        </div>
+      </div>
+
+      <!-- Right: booking form -->
+      <div class="booking-panel">
+        <h3 class="panel-title">Your Booking</h3>
+        <p class="panel-sub">Select a date and time slot on the left to get started.</p>
+
+        <div class="selected-slot-display empty" id="slotDisplay">No slot selected yet</div>
+
+        <form id="bookingForm">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" class="form-control" placeholder="Your full name" required>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" class="form-control" placeholder="your@email.com" required>
+          </div>
+          <div class="form-group">
+            <label>Phone / WhatsApp</label>
+            <input type="tel" class="form-control" placeholder="+1 234 567 8900">
+          </div>
+          <div class="form-group">
+            <label>Package</label>
+            <select class="form-control" required>
+              <option value="" disabled selected>Select a package</option>
+              <option>Beginner — $45 / person</option>
+              <option>Intermediate — $65 / person</option>
+              <option>Advanced — $120 / session</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Number of People</label>
+            <select class="form-control">
+              <option>1 person</option>
+              <option>2 people</option>
+              <option>3 people</option>
+              <option>4 people</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Payment Method</label>
+            <div class="payment-options">
+              <div class="pay-option active" onclick="selectPayment(this)">&#128179; Online</div>
+              <div class="pay-option" onclick="selectPayment(this)">&#128181; On-site</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Message (optional)</label>
+            <textarea class="form-control" rows="2" placeholder="Special requests or questions?"></textarea>
+          </div>
+          <button type="submit" class="btn btn-highlight" style="width:100%;padding:0.85rem;font-size:0.82rem">
+            Confirm Booking
+          </button>
+        </form>
+        <div class="success-msg" id="bookingSuccess">
+          Booking received! We'll confirm via email within a few hours.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ INSTRUCTORS ════════════ -->
+<section id="instructors">
+  <div class="instructors-header">
+    <p class="section-tag">The Team</p>
+    <h2 class="section-title">Our Instructors</h2>
+    <p class="section-subtitle">ISA-certified coaches with deep local knowledge and a genuine love for teaching.</p>
+  </div>
+  <div class="instructors-grid">
+    <div class="instructor-card">
+      <img class="instructor-img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Made Arjuna" loading="lazy">
+      <div class="instructor-info">
+        <h3 class="instructor-name">Made Arjuna</h3>
+        <p class="instructor-role">Head Instructor</p>
+        <p class="instructor-bio">Born and raised in Canggu, Made has been surfing since he could walk. 10+ years coaching, specialising in progressive technique and barrel riding.</p>
+      </div>
+    </div>
+    <div class="instructor-card">
+      <img class="instructor-img" src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=80" alt="Sari Dewi" loading="lazy">
+      <div class="instructor-info">
+        <h3 class="instructor-name">Sari Dewi</h3>
+        <p class="instructor-role">Beginner Specialist</p>
+        <p class="instructor-bio">Sari's patient and encouraging approach makes her the go-to coach for first-timers. She has helped over 300 people catch their first wave.</p>
+      </div>
+    </div>
+    <div class="instructor-card">
+      <img class="instructor-img" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80" alt="Tom Keller" loading="lazy">
+      <div class="instructor-info">
+        <h3 class="instructor-name">Tom Keller</h3>
+        <p class="instructor-role">Performance Coach</p>
+        <p class="instructor-bio">Former competition surfer from Germany who found his home in Bali. Tom focuses on advanced technique and helping surfers break through plateaus.</p>
+      </div>
+    </div>
+    <div class="instructor-card">
+      <img class="instructor-img" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80" alt="Wayan Surya" loading="lazy">
+      <div class="instructor-info">
+        <h3 class="instructor-name">Wayan Surya</h3>
+        <p class="instructor-role">Intermediate Coach</p>
+        <p class="instructor-bio">Wayan's deep knowledge of local breaks means you'll always be in the right spot at the right time. Intermediate coaching and wave reading are his forte.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ MERCHANDISE ════════════ -->
+<section id="merchandise">
+  <div class="merch-header">
+    <p class="section-tag">Off Peak Gear</p>
+    <h2 class="section-title">Merchandise</h2>
+    <p class="section-subtitle">Take a piece of Bali home. All products are sustainably made and proudly Off Peak.</p>
+  </div>
+  <div class="merch-grid">
+    <div class="merch-card">
+      <img class="merch-img" src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=80" alt="Off Peak T-Shirt" loading="lazy">
+      <div class="merch-info">
+        <p class="merch-name">Classic Logo Tee</p>
+        <p class="merch-price">$35</p>
+      </div>
+    </div>
+    <div class="merch-card">
+      <img class="merch-img" src="https://images.unsplash.com/photo-1562157873-818bc0726f68?w=400&q=80" alt="Boardshorts" loading="lazy">
+      <div class="merch-info">
+        <p class="merch-name">Wave Boardshorts</p>
+        <p class="merch-price">$55</p>
+      </div>
+    </div>
+    <div class="merch-card">
+      <img class="merch-img" src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=400&q=80" alt="Off Peak Cap" loading="lazy">
+      <div class="merch-info">
+        <p class="merch-name">Off Peak Cap</p>
+        <p class="merch-price">$30</p>
+      </div>
+    </div>
+    <div class="merch-card">
+      <img class="merch-img" src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&q=80" alt="Beach Tote" loading="lazy">
+      <div class="merch-info">
+        <p class="merch-name">Beach Tote Bag</p>
+        <p class="merch-price">$25</p>
+      </div>
+    </div>
+  </div>
+  <div class="merch-cta">
+    <a href="https://www.instagram.com/offpeakbali/" target="_blank" rel="noopener" class="btn btn-outline-light">
+      Shop on Instagram &#8594;
+    </a>
+  </div>
+</section>
+
+<!-- ════════════ CONTACT ════════════ -->
+<section id="contact">
+  <div style="max-width:1100px;margin:0 auto">
+    <p class="section-tag">Get in Touch</p>
+    <h2 class="section-title">Contact Us</h2>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <h3>Come surf with us</h3>
+      <p>Have questions about our packages or want to organise a group booking? Reach out via WhatsApp for the fastest response — we're always around.</p>
+      <ul class="contact-items">
+        <li class="contact-item">
+          <div class="contact-icon">&#128205;</div>
+          <div class="contact-item-text">
+            <strong>Location</strong>
+            <span>Canggu, Bali, Indonesia</span>
+          </div>
+        </li>
+        <li class="contact-item">
+          <div class="contact-icon">&#128241;</div>
+          <div class="contact-item-text">
+            <strong>WhatsApp</strong>
+            <a href="https://wa.me/628123456789">+62 812 3456 789</a>
+          </div>
+        </li>
+        <li class="contact-item">
+          <div class="contact-icon">&#9993;</div>
+          <div class="contact-item-text">
+            <strong>Email</strong>
+            <a href="mailto:hello@offpeakbali.com">hello@offpeakbali.com</a>
+          </div>
+        </li>
+        <li class="contact-item">
+          <div class="contact-icon">&#128336;</div>
+          <div class="contact-item-text">
+            <strong>Sessions</strong>
+            <span>Daily: 08:00 – 18:00 WITA</span>
+          </div>
+        </li>
+      </ul>
+      <div class="social-links">
+        <a href="https://www.instagram.com/offpeakbali/" target="_blank" rel="noopener" class="social-link">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          @offpeakbali
+        </a>
+      </div>
+    </div>
+
+    <div class="contact-form">
+      <h3>Send a Message</h3>
+      <form id="contactForm">
+        <div class="form-group-light">
+          <label>Name</label>
+          <input type="text" class="form-control-light" placeholder="Your name" required>
+        </div>
+        <div class="form-group-light">
+          <label>Email</label>
+          <input type="email" class="form-control-light" placeholder="your@email.com" required>
+        </div>
+        <div class="form-group-light">
+          <label>Subject</label>
+          <select class="form-control-light">
+            <option>Surf package inquiry</option>
+            <option>Group booking</option>
+            <option>Merchandise</option>
+            <option>Partnership</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group-light">
+          <label>Message</label>
+          <textarea class="form-control-light" rows="4" placeholder="What's on your mind?" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;padding:0.85rem">Send Message</button>
+        <div class="success-msg" id="contactSuccess">Message sent! We'll get back to you soon.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ FOOTER ════════════ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo-text">
+        <span class="brand" style="color:var(--cream);font-size:1.05rem">OFF PEAK</span>
+        <span class="sub" style="color:rgba(232,228,220,0.45)">surf bali</span>
+      </div>
+      <p>Canggu's off-the-beaten-path surf school. Less crowds, more waves, better sessions.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#packages">Packages</a></li>
+        <li><a href="#booking">Book Now</a></li>
+        <li><a href="#instructors">Instructors</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Info</h4>
+      <ul>
+        <li><a href="#merchandise">Merchandise</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="https://www.instagram.com/offpeakbali/" target="_blank" rel="noopener">Instagram</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms &amp; Conditions</a></li>
+        <li><a href="#">Cancellation Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 Off Peak Surf Bali. All rights reserved.</span>
+    <span>Made with love in Canggu</span>
+  </div>
+</footer>
+
+<!-- ════════════ JAVASCRIPT ════════════ -->
+<script>
+// ── CALENDAR ──────────────────────────────────────────────────
+const TODAY = new Date(2026, 4, 10);
+
+const BOOKED = {
+  '2026-05-11': ['08:00','10:00'],
+  '2026-05-12': ['08:00','14:00','16:00'],
+  '2026-05-13': ['10:00'],
+  '2026-05-15': ['08:00','10:00','14:00','16:00'],
+  '2026-05-16': ['08:00'],
+  '2026-05-18': ['10:00','14:00'],
+  '2026-05-19': ['08:00','10:00'],
+  '2026-05-20': ['14:00','16:00'],
+  '2026-05-22': ['08:00','10:00','14:00','16:00'],
+  '2026-05-24': ['08:00'],
+  '2026-05-25': ['08:00','10:00','14:00','16:00'],
+  '2026-05-28': ['10:00','16:00'],
+};
+
+const TIME_SLOTS = [
+  { time: '08:00', label: '08:00 – 10:00' },
+  { time: '10:00', label: '10:00 – 12:00' },
+  { time: '14:00', label: '14:00 – 16:00' },
+  { time: '16:00', label: '16:00 – 18:00' },
+];
+
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+let curMonth = TODAY.getMonth();
+let curYear  = TODAY.getFullYear();
+let selDate  = null;
+let selSlot  = null;
+
+function dateKey(y, m, d) {
+  return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+}
+
+function renderCalendar() {
+  document.getElementById('calTitle').textContent = `${MONTHS[curMonth]} ${curYear}`;
+  const grid = document.getElementById('calDays');
+  grid.innerHTML = '';
+
+  const firstDay   = new Date(curYear, curMonth, 1).getDay();
+  const daysInMonth = new Date(curYear, curMonth + 1, 0).getDate();
+  const offset     = (firstDay + 6) % 7;
+
+  for (let i = 0; i < offset; i++) {
+    const el = document.createElement('div');
+    el.className = 'cal-day empty';
+    grid.appendChild(el);
+  }
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const key  = dateKey(curYear, curMonth, d);
+    const date = new Date(curYear, curMonth, d);
+    const isPast = date < new Date(TODAY.getFullYear(), TODAY.getMonth(), TODAY.getDate());
+    const isToday = date.toDateString() === TODAY.toDateString();
+    const booked = BOOKED[key] || [];
+    const isFull = booked.length >= TIME_SLOTS.length;
+    const isPartial = booked.length > 0 && !isFull;
+
+    const el = document.createElement('div');
+    el.textContent = d;
+
+    const cls = ['cal-day'];
+    if (isPast)       cls.push('past');
+    else if (isFull)  cls.push('full');
+    else              cls.push('available');
+    if (isToday)    cls.push('today');
+    if (isPartial)  cls.push('partial');
+    if (selDate === key) cls.push('selected');
+
+    el.className = cls.join(' ');
+
+    if (!isPast && !isFull) {
+      el.addEventListener('click', () => selectDate(key, d));
+    }
+    grid.appendChild(el);
+  }
+}
+
+function selectDate(key, d) {
+  selDate = key;
+  selSlot = null;
+  resetSlotDisplay();
+  renderCalendar();
+  renderSlots(key, d);
+}
+
+function renderSlots(key, d) {
+  const wrap = document.getElementById('slotsWrap');
+  document.getElementById('slotsDate').textContent =
+    `Available slots — ${MONTHS[curMonth]} ${d}, ${curYear}`;
+  wrap.classList.add('visible');
+
+  const grid  = document.getElementById('slotsGrid');
+  grid.innerHTML = '';
+  const booked = BOOKED[key] || [];
+
+  TIME_SLOTS.forEach(slot => {
+    const isBooked = booked.includes(slot.time);
+    const el = document.createElement('div');
+    el.className = `slot ${isBooked ? 'booked' : 'available'}`;
+    if (selSlot === slot.time) el.classList.add('selected');
+    el.innerHTML = `
+      <div class="slot-time">${slot.label}</div>
+      <div class="slot-status">${isBooked ? 'Fully booked' : 'Available'}</div>`;
+    if (!isBooked) {
+      el.addEventListener('click', function() { selectSlot(slot, key, d, this); });
+    }
+    grid.appendChild(el);
+  });
+}
+
+function selectSlot(slot, key, d, el) {
+  selSlot = slot.time;
+  document.querySelectorAll('.slot').forEach(s => s.classList.remove('selected'));
+  el.classList.add('selected');
+
+  const display = document.getElementById('slotDisplay');
+  display.className = 'selected-slot-display';
+  display.innerHTML = `
+    <strong style="display:block;font-family:'Montserrat',sans-serif;font-size:0.75rem;color:var(--highlight);margin-bottom:0.4rem;letter-spacing:0.1em;text-transform:uppercase">Selected Slot</strong>
+    &#128197; ${MONTHS[curMonth]} ${d}, ${curYear}<br>
+    &#128336; ${slot.label}
+  `;
+}
+
+function resetSlotDisplay() {
+  const display = document.getElementById('slotDisplay');
+  display.className = 'selected-slot-display empty';
+  display.textContent = 'No slot selected yet';
+}
+
+document.getElementById('prevMonth').addEventListener('click', () => {
+  curMonth--;
+  if (curMonth < 0) { curMonth = 11; curYear--; }
+  selDate = null; selSlot = null;
+  resetSlotDisplay();
+  document.getElementById('slotsWrap').classList.remove('visible');
+  renderCalendar();
+});
+
+document.getElementById('nextMonth').addEventListener('click', () => {
+  curMonth++;
+  if (curMonth > 11) { curMonth = 0; curYear++; }
+  selDate = null; selSlot = null;
+  resetSlotDisplay();
+  document.getElementById('slotsWrap').classList.remove('visible');
+  renderCalendar();
+});
+
+renderCalendar();
+
+// ── PAYMENT TOGGLE ────────────────────────────────────────────
+function selectPayment(el) {
+  document.querySelectorAll('.pay-option').forEach(e => e.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ── FORMS ─────────────────────────────────────────────────────
+document.getElementById('bookingForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  document.getElementById('bookingSuccess').style.display = 'block';
+  this.style.display = 'none';
+});
+
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  document.getElementById('contactSuccess').style.display = 'block';
+  this.querySelector('button[type=submit]').disabled = true;
+});
+
+// ── MOBILE NAV ────────────────────────────────────────────────
+const hamburger = document.getElementById('hamburger');
+const navLinks  = document.getElementById('navLinks');
+
+hamburger.addEventListener('click', () => {
+  navLinks.classList.toggle('open');
+});
+
+navLinks.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => navLinks.classList.remove('open'));
+});
+</script>
+</body>
+</html>
