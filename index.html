@@ -646,6 +646,81 @@
     }
     .total-row.grand .total-amount { color: var(--highlight); font-size: 1.1rem; }
 
+    /* Cash payment notice */
+    .cash-notice {
+      background: rgba(91,173,127,0.1);
+      border: 1px solid rgba(91,173,127,0.25);
+      border-radius: 8px;
+      padding: 0.7rem 0.85rem;
+      margin-bottom: 1rem;
+      font-size: 0.78rem;
+      line-height: 1.5;
+      color: rgba(232,228,220,0.85);
+    }
+    .cash-notice strong { color: var(--green); font-weight: 700; }
+
+    /* Cash banner above packages */
+    .cash-banner {
+      max-width: 1200px;
+      margin: 0 auto 2rem;
+      background: rgba(91,173,127,0.1);
+      border: 1px solid rgba(91,173,127,0.25);
+      border-radius: 100px;
+      padding: 0.7rem 1.5rem;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--charcoal-light);
+    }
+    .cash-banner strong { color: var(--green); font-weight: 700; }
+
+    /* ── FAQ ── */
+    #faq { background: var(--cream); }
+    .faq-header { max-width: 800px; margin: 0 auto 3rem; text-align: center; }
+    .faq-header .section-subtitle { margin: 0 auto; }
+    .faq-wrap { max-width: 760px; margin: 0 auto; }
+    .faq-item {
+      border-bottom: 1px solid rgba(44,41,39,0.1);
+    }
+    .faq-item:first-child { border-top: 1px solid rgba(44,41,39,0.1); }
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 1.4rem 0;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--charcoal);
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      transition: color 0.2s;
+    }
+    .faq-question:hover { color: var(--highlight); }
+    .faq-icon {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      transition: transform 0.3s;
+      color: var(--highlight);
+    }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+      color: var(--charcoal-light);
+      font-size: 0.92rem;
+      line-height: 1.75;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+      padding-bottom: 1.4rem;
+    }
+
     /* ── INSTRUCTOR (single featured) ── */
     #instructors { background: var(--cream-light); }
     .instructors-header { max-width: 900px; margin: 0 auto 3.5rem; }
@@ -1030,6 +1105,7 @@
     <li><a href="#packages">Packages</a></li>
     <li><a href="#instructors">Instructor</a></li>
     <li><a href="#merchandise">Merch</a></li>
+    <li><a href="#faq">FAQ</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#booking" class="btn btn-primary">Book Now</a></li>
   </ul>
@@ -1098,6 +1174,11 @@
     <h2 class="section-title">Surf Packages</h2>
     <p class="section-subtitle">From your very first wave to advanced coaching — we have the right session for your level.</p>
   </div>
+
+  <div class="cash-banner">
+    💵 <strong>Payment:</strong> Cash in IDR, on arrival at the surf school — no advance payment required
+  </div>
+
   <div class="packages-grid">
 
     <!-- Beginner -->
@@ -1312,32 +1393,29 @@
 
           <div class="form-group">
             <label>Full Name</label>
-            <input type="text" class="form-control" placeholder="Your full name" required>
+            <input id="bookingName" type="text" class="form-control" placeholder="Your full name" required>
           </div>
           <div class="form-group">
             <label>Email</label>
-            <input type="email" class="form-control" placeholder="your@email.com" required>
+            <input id="bookingEmail" type="email" class="form-control" placeholder="your@email.com" required>
           </div>
           <div class="form-group">
             <label>Phone / WhatsApp</label>
-            <input type="tel" class="form-control" placeholder="+62 ...">
-          </div>
-
-          <div class="form-group">
-            <label>Payment Method</label>
-            <div class="payment-options">
-              <div class="pay-option active" onclick="selectPayment(this)">&#128179; Online</div>
-              <div class="pay-option" onclick="selectPayment(this)">&#128181; On-site</div>
-            </div>
+            <input id="bookingPhone" type="tel" class="form-control" placeholder="+62 ...">
           </div>
 
           <div class="form-group">
             <label>Message (optional)</label>
-            <textarea class="form-control" rows="2" placeholder="Special requests or questions?"></textarea>
+            <textarea id="bookingMessage" class="form-control" rows="2" placeholder="Special requests or questions?"></textarea>
           </div>
 
           <!-- Live total -->
           <div class="booking-total" id="bookingTotal"></div>
+
+          <!-- Cash payment notice -->
+          <div class="cash-notice">
+            💵 <strong>Payment:</strong> Cash in IDR, on arrival at the surf school
+          </div>
 
           <button type="submit" class="btn btn-highlight" style="width:100%;padding:0.85rem;font-size:0.82rem">
             Confirm Booking
@@ -1415,6 +1493,99 @@
   <div class="merch-cta">
     <a href="https://www.instagram.com/offpeakbali/" target="_blank" rel="noopener"
        class="btn btn-outline-light">View all on Instagram &#8594;</a>
+  </div>
+</section>
+
+<!-- ════════════ FAQ ════════════ -->
+<section id="faq">
+  <div class="faq-header">
+    <p class="section-tag">Good to Know</p>
+    <h2 class="section-title">FAQ</h2>
+    <p class="section-subtitle">Everything you need to know before booking your session.</p>
+  </div>
+
+  <div class="faq-wrap">
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        Do I need any surf experience?
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <div class="faq-answer">
+        Not at all. Our Beginner package is designed for complete first-timers. We start with the basics on the beach, then get you riding your first waves the same day. All you need is an open mind and a bit of stoke.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        What should I bring?
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <div class="faq-answer">
+        Just yourself, swimwear, sunscreen, and a towel. We provide the surfboard, rash guard, and all the gear you need. A water bottle is a good idea — Bali sun gets hot.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        Where do we meet?
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <div class="faq-answer">
+        We'll send you the exact meeting point in Canggu via WhatsApp or email after you book. If you've added the Transport add-on, we pick you up directly at your accommodation within Canggu.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        How do I pay?
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <div class="faq-answer">
+        Payment is cash in IDR, paid on arrival at the surf school before your session starts. No advance payment, no deposit. Simple and straightforward.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        What if the weather or surf is bad?
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <div class="faq-answer">
+        Surfing happens in rain or shine — but never in dangerous conditions. If the surf isn't safe, we'll reschedule your session at no extra cost. We always prioritize your safety.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        Can I cancel or reschedule?
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <div class="faq-answer">
+        Yes! Since payment is on arrival, you can cancel anytime. We just appreciate a heads-up via WhatsApp as soon as you know, so we can offer the slot to someone else.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        Is it suitable for kids?
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <div class="faq-answer">
+        Kids from 10 years old are welcome on the beginner package as long as they're confident swimmers. For younger kids or family packages, contact us via WhatsApp and we'll work something out.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        Do you offer group bookings?
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <div class="faq-answer">
+        Absolutely. For groups of 5 or more we can arrange dedicated sessions and offer group rates. Drop us a WhatsApp message and we'll sort out the details.
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -1541,7 +1712,25 @@
 </footer>
 
 <!-- ════════════ JAVASCRIPT ════════════ -->
-<script>
+<script type="module">
+// ── FIREBASE INIT ────────────────────────────────────────────
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getFirestore, collection, addDoc, query, where, onSnapshot, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCg9EWEURliCmSdQ9MD8_7oA8WmVaMlqUU",
+  authDomain: "offpeakbali.firebaseapp.com",
+  projectId: "offpeakbali",
+  storageBucket: "offpeakbali.firebasestorage.app",
+  messagingSenderId: "1067115128830",
+  appId: "1:1067115128830:web:2b8ba0ae04ba8c16ffc2af"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+
 // ── SCROLL: hide scroll indicator ────────────────────────────
 window.addEventListener('scroll', function () {
   const el = document.getElementById('heroScroll');
@@ -1549,7 +1738,7 @@ window.addEventListener('scroll', function () {
 }, { passive: true });
 
 // ── CONFIG ───────────────────────────────────────────────────
-const TODAY = new Date(2026, 4, 10);
+const TODAY = new Date();
 
 const PACKAGES = {
   beginner:     { name: 'Beginner',     price: 450000, duration: 90,  unit: 'person'  },
@@ -1574,21 +1763,8 @@ const START_TIMES = [
 ];
 const CLOSING = 17*60; // 17:00 (5 pm) hard closing for any session
 
-// Demo bookings — each entry has start time + which package was booked
-const BOOKED = {
-  '2026-05-11': [{ start:'07:00', pkg:'beginner' }, { start:'09:00', pkg:'intermediate' }],
-  '2026-05-12': [{ start:'07:00', pkg:'advanced'  }, { start:'13:00', pkg:'beginner' }],
-  '2026-05-13': [{ start:'09:00', pkg:'intermediate' }],
-  '2026-05-15': [{ start:'07:00', pkg:'advanced'  }, { start:'11:00', pkg:'intermediate' }, { start:'13:00', pkg:'advanced' }],
-  '2026-05-16': [{ start:'07:00', pkg:'beginner' }],
-  '2026-05-18': [{ start:'09:00', pkg:'intermediate' }, { start:'11:00', pkg:'beginner' }],
-  '2026-05-19': [{ start:'07:00', pkg:'beginner' }, { start:'09:00', pkg:'intermediate' }, { start:'13:00', pkg:'advanced' }],
-  '2026-05-20': [{ start:'11:00', pkg:'beginner' }, { start:'13:00', pkg:'intermediate' }],
-  '2026-05-22': [{ start:'07:00', pkg:'advanced' }, { start:'11:00', pkg:'advanced' }],
-  '2026-05-24': [{ start:'07:00', pkg:'beginner' }],
-  '2026-05-25': [{ start:'07:00', pkg:'advanced' }, { start:'11:00', pkg:'advanced' }, { start:'14:30', pkg:'beginner' }],
-  '2026-05-28': [{ start:'09:00', pkg:'intermediate' }, { start:'13:00', pkg:'advanced' }],
-};
+// Bookings — loaded live from Firebase
+let BOOKED = {};
 
 const MONTHS = ['January','February','March','April','May','June',
                 'July','August','September','October','November','December'];
@@ -1895,11 +2071,65 @@ function updateTotal() {
   document.getElementById('bookingTotal').innerHTML = html;
 }
 
+// ── TOTAL (number only, no rendering) ────────────────────────
+function calcGrandTotal() {
+  const pkg = PACKAGES[state.package];
+  let total = pkg.price * state.people;
+  ['photos','video','bundle'].forEach(a => {
+    if (state.addons.has(a) && state.package !== 'advanced') total += ADDONS[a].price;
+  });
+  if (state.addons.has('transport')) total += ADDONS.transport.price;
+  return total;
+}
+
 // ── FORMS ────────────────────────────────────────────────────
-document.getElementById('bookingForm').addEventListener('submit', function (e) {
+document.getElementById('bookingForm').addEventListener('submit', async function (e) {
   e.preventDefault();
-  document.getElementById('bookingSuccess').style.display = 'block';
-  this.style.display = 'none';
+
+  // Validate slot selected
+  if (!state.selDate || !state.selSlot) {
+    alert('Please select a date and time slot from the calendar first.');
+    return;
+  }
+
+  const submitBtn = this.querySelector('button[type=submit]');
+  const originalText = submitBtn.textContent;
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Submitting...';
+
+  try {
+    // Double-check slot is still free (race condition guard)
+    if (hasConflict(state.selDate, parseTime(state.selSlot), state.package)) {
+      alert('Sorry — this slot was just booked by someone else. Please pick another time.');
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+      return;
+    }
+
+    await addDoc(collection(db, 'bookings'), {
+      date:          state.selDate,
+      startTime:     state.selSlot,
+      package:       state.package,
+      packageName:   PACKAGES[state.package].name,
+      people:        state.people,
+      addons:        Array.from(state.addons),
+      totalAmount:   calcGrandTotal(),
+      customerName:  document.getElementById('bookingName').value.trim(),
+      customerEmail: document.getElementById('bookingEmail').value.trim(),
+      customerPhone: document.getElementById('bookingPhone').value.trim(),
+      message:       document.getElementById('bookingMessage').value.trim(),
+      status:        'confirmed',
+      createdAt:     serverTimestamp(),
+    });
+
+    document.getElementById('bookingSuccess').style.display = 'block';
+    this.style.display = 'none';
+  } catch (err) {
+    console.error('Booking error:', err);
+    alert('Something went wrong while saving your booking. Please try again or reach us via WhatsApp.');
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalText;
+  }
 });
 
 document.getElementById('contactForm').addEventListener('submit', function (e) {
@@ -1908,11 +2138,57 @@ document.getElementById('contactForm').addEventListener('submit', function (e) {
   this.querySelector('button[type=submit]').disabled = true;
 });
 
+// ── FAQ ACCORDION ────────────────────────────────────────────
+function toggleFAQ(btn) {
+  const item = btn.parentElement;
+  const wasOpen = item.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  // Toggle current
+  if (!wasOpen) item.classList.add('open');
+}
+
 // ── MOBILE NAV ───────────────────────────────────────────────
 const hamburger = document.getElementById('hamburger');
 const navLinks  = document.getElementById('navLinks');
 hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
 navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+// ── EXPOSE FUNCTIONS FOR onclick= HTML ATTRIBUTES ────────────
+window.toggleAddon     = toggleAddon;
+window.bookPackage     = bookPackage;
+window.onPackageChange = onPackageChange;
+window.onPeopleChange  = onPeopleChange;
+window.toggleFAQ       = toggleFAQ;
+window.selectPayment   = selectPayment;
+
+// ── FIREBASE LIVE LISTENER ───────────────────────────────────
+// Loads all future bookings + listens for live updates.
+// When anyone books, the calendar updates everywhere in real-time.
+const todayKey = `${TODAY.getFullYear()}-${String(TODAY.getMonth()+1).padStart(2,'0')}-${String(TODAY.getDate()).padStart(2,'0')}`;
+
+const bookingsQuery = query(
+  collection(db, 'bookings'),
+  where('date', '>=', todayKey),
+  where('status', '==', 'confirmed')
+);
+
+onSnapshot(bookingsQuery, (snapshot) => {
+  BOOKED = {};
+  snapshot.forEach(doc => {
+    const b = doc.data();
+    if (!BOOKED[b.date]) BOOKED[b.date] = [];
+    BOOKED[b.date].push({ start: b.startTime, pkg: b.package });
+  });
+  renderCalendar();
+  // If a date is selected, re-render its slots too
+  if (state.selDate) {
+    const d = parseInt(state.selDate.split('-')[2], 10);
+    renderSlots(state.selDate, d);
+  }
+}, (err) => {
+  console.error('Firebase listener error:', err);
+});
 
 // ── INIT ─────────────────────────────────────────────────────
 renderCalendar();
