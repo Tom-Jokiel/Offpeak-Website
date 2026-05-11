@@ -2106,7 +2106,7 @@ document.getElementById('bookingForm').addEventListener('submit', async function
       return;
     }
 
-    await addDoc(collection(db, 'bookings'), {
+    const bookingData = {
       date:          state.selDate,
       startTime:     state.selSlot,
       package:       state.package,
@@ -2118,12 +2118,24 @@ document.getElementById('bookingForm').addEventListener('submit', async function
       customerEmail: document.getElementById('bookingEmail').value.trim(),
       customerPhone: document.getElementById('bookingPhone').value.trim(),
       message:       document.getElementById('bookingMessage').value.trim(),
-      status:        'confirmed',
-      createdAt:     serverTimestamp(),
+    };
+
+    await addDoc(collection(db, 'bookings'), {
+      ...bookingData,
+      status:    'confirmed',
+      createdAt: serverTimestamp(),
     });
 
+    // Show success immediately — emails happen in the background
     document.getElementById('bookingSuccess').style.display = 'block';
     this.style.display = 'none';
+
+    // Fire-and-forget email notification (don't block UX if it fails)
+    fetch('/api/notify-booking', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ booking: bookingData }),
+    }).catch(err => console.warn('Email notification failed:', err));
   } catch (err) {
     console.error('Booking error:', err);
     alert('Something went wrong while saving your booking. Please try again or reach us via WhatsApp.');
