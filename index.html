@@ -150,21 +150,31 @@
       overflow: hidden;
     }
 
-    .hero-bg {
+    .hero-slideshow {
       position: absolute;
       inset: 0;
-      background: url('https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=1800&q=80') center/cover no-repeat;
+      overflow: hidden;
     }
-    .hero-bg::after {
-      content: '';
+    .hero-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1.6s ease;
+    }
+    .hero-slide.active { opacity: 1; }
+    .hero-overlay {
       position: absolute;
       inset: 0;
       background: linear-gradient(105deg, rgba(44,41,39,0.75) 0%, rgba(44,41,39,0.38) 55%, rgba(44,41,39,0.1) 100%);
+      z-index: 1;
     }
 
     .hero-content {
       position: relative;
-      z-index: 1;
+      z-index: 2;
       padding: 0 clamp(1.5rem, 8vw, 8rem);
       max-width: 700px;
     }
@@ -220,7 +230,7 @@
       bottom: 2rem;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 1;
+      z-index: 2;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -673,6 +683,82 @@
     }
     .cash-banner strong { color: var(--green); font-weight: 700; }
 
+    /* ── GALLERY ── */
+    #gallery { background: var(--cream); }
+    .gallery-header { max-width: 1100px; margin: 0 auto 3rem; text-align: center; }
+    .gallery-header .section-subtitle { margin: 0 auto; }
+
+    .gallery-wrap {
+      position: relative;
+      max-width: 1100px;
+      margin: 0 auto;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--charcoal);
+      aspect-ratio: 16 / 9;
+    }
+    .gallery-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+    .gallery-slide.active { opacity: 1; }
+
+    .gallery-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(232,228,220,0.9);
+      border: none;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      z-index: 2;
+      color: var(--charcoal);
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+    .gallery-arrow:hover { background: var(--cream); transform: translateY(-50%) scale(1.08); }
+    .gallery-arrow.prev { left: 1rem; }
+    .gallery-arrow.next { right: 1rem; }
+
+    .gallery-dots {
+      position: absolute;
+      bottom: 1.25rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 0.5rem;
+      z-index: 2;
+    }
+    .gallery-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: rgba(232,228,220,0.4);
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: all 0.2s;
+    }
+    .gallery-dot:hover { background: rgba(232,228,220,0.7); }
+    .gallery-dot.active { background: var(--cream); width: 28px; border-radius: 5px; }
+
+    @media (max-width: 600px) {
+      .gallery-arrow { width: 38px; height: 38px; font-size: 1.2rem; }
+      .gallery-arrow.prev { left: 0.6rem; }
+      .gallery-arrow.next { right: 0.6rem; }
+    }
+
     /* ── FAQ ── */
     #faq { background: var(--cream); }
     .faq-header { max-width: 800px; margin: 0 auto 3rem; text-align: center; }
@@ -1104,6 +1190,7 @@
     <li><a href="#home">Home</a></li>
     <li><a href="#packages">Packages</a></li>
     <li><a href="#instructors">Instructor</a></li>
+    <li><a href="#gallery">Gallery</a></li>
     <li><a href="#merchandise">Merch</a></li>
     <li><a href="#faq">FAQ</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -1117,7 +1204,20 @@
 
 <!-- ════════════ HERO ════════════ -->
 <section id="home">
-  <div class="hero-bg"></div>
+  <!--
+    HERO SLIDESHOW
+    Place your own hero images in /hero/ folder named hero1.png, hero2.png, hero3.png
+    If files are missing, fallback Unsplash images are used.
+  -->
+  <div class="hero-slideshow">
+    <img class="hero-slide active" src="hero/hero1.png" alt=""
+         onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=1800&q=80'">
+    <img class="hero-slide" src="hero/hero2.png" alt=""
+         onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=1800&q=80'">
+    <img class="hero-slide" src="hero/hero3.png" alt=""
+         onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1455729552865-3658a5d39692?w=1800&q=80'">
+  </div>
+  <div class="hero-overlay"></div>
   <div class="hero-content">
     <span class="hero-tag">Canggu, Bali</span>
     <h1 class="hero-title">
@@ -1204,50 +1304,51 @@
       </div>
     </div>
 
-    <!-- Intermediate (featured) -->
+    <!-- 5-Session Pack (featured) -->
     <div class="package-card featured">
       <img class="package-img"
            src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=600&q=80"
-           alt="Intermediate surf lesson" loading="lazy">
+           alt="5-Session surf pack" loading="lazy">
       <div class="package-body">
-        <p class="package-level">Level 02 · Most Popular</p>
-        <h3 class="package-name">Intermediate</h3>
-        <p class="package-desc">You can pop up, but want to actually surf. We work on positioning, wave selection, timing, and start shaping your personal style.</p>
+        <p class="package-level">5 Sessions · Save 11%</p>
+        <h3 class="package-name">5-Session Pack</h3>
+        <p class="package-desc">Five surf sessions to take you from your first wave to confident solo surfing. Schedule them at your own pace.</p>
         <ul class="package-features">
-          <li>2.5-hour coached session</li>
+          <li>5 × 90-minute guided sessions</li>
           <li>Surfboard &amp; rash guard included</li>
-          <li>Max 3 students per instructor</li>
-          <li>Wave reading &amp; line-up etiquette</li>
+          <li>Max 4 students per instructor</li>
+          <li>Beach safety &amp; theory briefing</li>
+          <li><strong style="color:var(--highlight)">Rp 400.000 per session</strong> (vs. Rp 450.000)</li>
         </ul>
         <div class="package-price">
-          <span class="price-amount">Rp 650.000</span>
+          <span class="price-amount">Rp 2.000.000</span>
           <span class="price-per">/ person</span>
         </div>
-        <a href="#booking" class="btn btn-highlight" onclick="bookPackage('intermediate')" style="width:100%;justify-content:center">Book Now</a>
+        <a href="#booking" class="btn btn-highlight" onclick="bookPackage('pack5')" style="width:100%;justify-content:center">Book Now</a>
       </div>
     </div>
 
-    <!-- Advanced -->
+    <!-- 10-Session Pack -->
     <div class="package-card">
       <img class="package-img"
            src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=600&q=80"
-           alt="Advanced surf coaching" loading="lazy">
+           alt="10-Session surf pack" loading="lazy">
       <div class="package-body">
-        <p class="package-level">Level 03 · All-Inclusive</p>
-        <h3 class="package-name">Advanced</h3>
-        <p class="package-desc">Private 1-on-1 coaching for surfers pushing their limits. Turns, aerials, barrel hunting — we go where the swell takes us.</p>
+        <p class="package-level">10 Sessions · Save 22%</p>
+        <h3 class="package-name">10-Session Pack</h3>
+        <p class="package-desc">Our best value. Ten sessions for the committed surfer — improve consistently and watch your skills transform.</p>
         <ul class="package-features">
-          <li>3-hour private session</li>
+          <li>10 × 90-minute guided sessions</li>
           <li>Surfboard &amp; rash guard included</li>
-          <li>Dedicated personal coach</li>
-          <li>Spot selection based on swell</li>
-          <li><strong style="color:var(--highlight)">Photos + Video included</strong></li>
+          <li>Max 4 students per instructor</li>
+          <li>Beach safety &amp; theory briefing</li>
+          <li><strong style="color:var(--highlight)">Rp 350.000 per session</strong> (vs. Rp 450.000)</li>
         </ul>
         <div class="package-price">
-          <span class="price-amount">Rp 950.000</span>
-          <span class="price-per">/ session</span>
+          <span class="price-amount">Rp 3.500.000</span>
+          <span class="price-per">/ person</span>
         </div>
-        <a href="#booking" class="btn btn-outline" onclick="bookPackage('advanced')" style="width:100%;justify-content:center">Book Now</a>
+        <a href="#booking" class="btn btn-outline" onclick="bookPackage('pack10')" style="width:100%;justify-content:center">Book Now</a>
       </div>
     </div>
 
@@ -1262,7 +1363,7 @@
         <div class="addon-icon">📷</div>
         <div class="addon-name">Photos</div>
         <div class="addon-desc">High-quality shots of your session, delivered same day</div>
-        <div class="addon-price">+ Rp 150.000</div>
+        <div class="addon-price">+ Rp 200.000</div>
       </div>
       <div class="addon-card" data-addon="video" onclick="toggleAddon('video')">
         <div class="addon-icon">🎥</div>
@@ -1353,9 +1454,9 @@
           <div class="form-group">
             <label>Package</label>
             <select id="packageSelect" class="form-control" required onchange="onPackageChange()">
-              <option value="beginner">Beginner — Rp 450.000 / person</option>
-              <option value="intermediate">Intermediate — Rp 650.000 / person</option>
-              <option value="advanced">Advanced — Rp 950.000 / session</option>
+              <option value="beginner">Beginner — Rp 450.000 (1 session)</option>
+              <option value="pack5">5-Session Pack — Rp 2.000.000</option>
+              <option value="pack10">10-Session Pack — Rp 3.500.000</option>
             </select>
           </div>
 
@@ -1374,7 +1475,7 @@
             <div class="booking-addons" id="bookingAddons">
               <div class="booking-addon" data-addon="photos" onclick="toggleAddon('photos')">
                 <span class="booking-addon-name">📷 Photos</span>
-                <span class="booking-addon-price">+ Rp 150.000</span>
+                <span class="booking-addon-price">+ Rp 200.000</span>
               </div>
               <div class="booking-addon" data-addon="video" onclick="toggleAddon('video')">
                 <span class="booking-addon-name">🎥 Video</span>
@@ -1496,6 +1597,28 @@
   </div>
 </section>
 
+<!-- ════════════ GALLERY ════════════ -->
+<section id="gallery">
+  <div class="gallery-header">
+    <p class="section-tag">Moments</p>
+    <h2 class="section-title">Gallery</h2>
+    <p class="section-subtitle">Snapshots from sessions at our favourite breaks.</p>
+  </div>
+
+  <!--
+    GALLERY IMAGES
+    Place your photos in /gallery/ folder named 1.jpg, 2.jpg, etc.
+    To add or remove images: edit the GALLERY_IMAGES array in the script below.
+    Recommended size: ~1600 × 900 (landscape, will be cropped to 16:9).
+  -->
+  <div class="gallery-wrap" id="galleryWrap">
+    <!-- Slides are rendered by JavaScript -->
+    <button class="gallery-arrow prev" id="galleryPrev" aria-label="Previous image">‹</button>
+    <button class="gallery-arrow next" id="galleryNext" aria-label="Next image">›</button>
+    <div class="gallery-dots" id="galleryDots"></div>
+  </div>
+</section>
+
 <!-- ════════════ FAQ ════════════ -->
 <section id="faq">
   <div class="faq-header">
@@ -1512,7 +1635,17 @@
         <svg class="faq-icon" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
       <div class="faq-answer">
-        Not at all. Our Beginner package is designed for complete first-timers. We start with the basics on the beach, then get you riding your first waves the same day. All you need is an open mind and a bit of stoke.
+        Not at all. All our packages are designed for first-timers and progressing surfers alike. We start with the basics on the beach, then get you riding your first waves the same day. All you need is an open mind and a bit of stoke.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        How do the 5-Session and 10-Session Packs work?
+        <svg class="faq-icon" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <div class="faq-answer">
+        Book your first session via the calendar — the rest are scheduled flexibly via WhatsApp at times that work for you. You save up to 22% per session compared to single bookings. Sessions are valid for 3 months from your first lesson.
       </div>
     </div>
 
@@ -1618,7 +1751,7 @@
           <div class="contact-icon">&#9993;</div>
           <div class="contact-item-text">
             <strong>Email</strong>
-            <a href="mailto:hello@offpeakbali.com">hello@offpeakbali.com</a>
+            <a href="mailto:aplianalif911@gmail.com">aplianalif911@gmail.com</a>
           </div>
         </li>
         <li class="contact-item">
@@ -1741,13 +1874,19 @@ window.addEventListener('scroll', function () {
 const TODAY = new Date();
 
 const PACKAGES = {
-  beginner:     { name: 'Beginner',     price: 450000, duration: 90,  unit: 'person'  },
-  intermediate: { name: 'Intermediate', price: 650000, duration: 150, unit: 'person'  },
-  advanced:     { name: 'Advanced',     price: 950000, duration: 180, unit: 'session', includesMedia: true },
+  beginner: { name: 'Beginner',         price: 450000,  duration: 90, unit: 'person',  sessions: 1  },
+  pack5:    { name: '5-Session Pack',   price: 2000000, duration: 90, unit: 'person',  sessions: 5  },
+  pack10:   { name: '10-Session Pack',  price: 3500000, duration: 90, unit: 'person',  sessions: 10 },
 };
 
+// Defensive lookup — falls back to 90 min if an unknown package key is encountered
+// (e.g. legacy bookings from earlier package structure).
+function pkgDuration(key) {
+  return (PACKAGES[key] && PACKAGES[key].duration) || 90;
+}
+
 const ADDONS = {
-  photos:    { label: '📷 Photos',          price: 150000 },
+  photos:    { label: '📷 Photos',          price: 200000 },
   video:     { label: '🎥 Video',           price: 200000 },
   bundle:    { label: '📷🎥 Photos + Video', price: 300000 },
   transport: { label: '🛺 Transport',        price: 50000  },
@@ -1799,12 +1938,12 @@ function parseTime(t) {
 
 // Check if booking [start, start+dur] conflicts with existing bookings on `date`
 function hasConflict(date, startMins, pkg) {
-  const dur = PACKAGES[pkg].duration;
+  const dur = pkgDuration(pkg);
   const end = startMins + dur;
   const bookings = BOOKED[date] || [];
   for (const b of bookings) {
     const bStart = parseTime(b.start);
-    const bEnd   = bStart + PACKAGES[b.pkg].duration;
+    const bEnd   = bStart + pkgDuration(b.pkg);
     if (startMins < bEnd && bStart < end) return true;
   }
   return false;
@@ -1812,7 +1951,7 @@ function hasConflict(date, startMins, pkg) {
 
 // Returns valid start times for a given package on a given date
 function validStartsFor(pkg) {
-  const dur = PACKAGES[pkg].duration;
+  const dur = pkgDuration(pkg);
   return START_TIMES.filter(s => s.mins + dur <= CLOSING);
 }
 
@@ -1887,7 +2026,7 @@ function selectDate(key, d) {
 
 function renderSlots(key, d) {
   document.getElementById('slotsDate').textContent =
-    `Available slots — ${MONTHS[state.curMonth]} ${d}, ${state.curYear} · ${PACKAGES[state.package].name} (${PACKAGES[state.package].duration} min)`;
+    `Available slots — ${MONTHS[state.curMonth]} ${d}, ${state.curYear} · ${PACKAGES[state.package].name} (${pkgDuration(state.package)} min)`;
   document.getElementById('slotsWrap').classList.add('visible');
 
   const grid = document.getElementById('slotsGrid');
@@ -1897,7 +2036,7 @@ function renderSlots(key, d) {
 
   valid.forEach(slot => {
     const conflict = hasConflict(key, slot.mins, state.package);
-    const endMins  = slot.mins + PACKAGES[state.package].duration;
+    const endMins  = slot.mins + pkgDuration(state.package);
     const label    = `${slot.time} – ${minsToTime(endMins)}`;
 
     const el = document.createElement('div');
@@ -1972,30 +2111,10 @@ function toggleAddon(addon) {
 }
 
 function syncAddonUI() {
-  // Sync both top section + booking panel
   document.querySelectorAll('[data-addon]').forEach(el => {
     const a = el.dataset.addon;
     el.classList.toggle('active', state.addons.has(a));
-
-    // For Advanced: media add-ons show as "Included"
-    const isMedia = ['photos','video','bundle'].includes(a);
-    if (state.package === 'advanced' && isMedia) {
-      el.classList.add('disabled');
-      // For top cards: keep original price
-      // For booking-panel cards: show "Included"
-      if (el.classList.contains('booking-addon')) {
-        const priceEl = el.querySelector('.booking-addon-price');
-        if (priceEl && !priceEl.dataset.original) priceEl.dataset.original = priceEl.textContent;
-        if (priceEl) priceEl.textContent = 'Included';
-        el.classList.add('included');
-      }
-    } else {
-      el.classList.remove('disabled', 'included');
-      if (el.classList.contains('booking-addon')) {
-        const priceEl = el.querySelector('.booking-addon-price');
-        if (priceEl && priceEl.dataset.original) priceEl.textContent = priceEl.dataset.original;
-      }
-    }
+    el.classList.remove('disabled', 'included');
   });
 }
 
@@ -2009,12 +2128,6 @@ function selectPayment(el) {
 function bookPackage(pkg) {
   state.package = pkg;
   document.getElementById('packageSelect').value = pkg;
-  // If Advanced, drop any media add-ons (it's included)
-  if (pkg === 'advanced') {
-    state.addons.delete('photos');
-    state.addons.delete('video');
-    state.addons.delete('bundle');
-  }
   syncAddonUI();
   state.selSlot = null;
   resetSlotDisplay();
@@ -2043,15 +2156,11 @@ function updateTotal() {
     amount: pkgSubtotal,
   });
 
-  // Media add-ons (skipped if Advanced — included)
   ['photos','video','bundle'].forEach(a => {
-    if (state.addons.has(a) && state.package !== 'advanced') {
+    if (state.addons.has(a)) {
       rows.push({ label: ADDONS[a].label, amount: ADDONS[a].price });
     }
   });
-  if (state.package === 'advanced') {
-    rows.push({ label: '📷🎥 Photos + Video', amount: 0, included: true });
-  }
   if (state.addons.has('transport')) {
     rows.push({ label: ADDONS.transport.label, amount: ADDONS.transport.price });
   }
@@ -2061,7 +2170,7 @@ function updateTotal() {
   const html = rows.map(r => `
     <div class="total-row">
       <span>${r.label}</span>
-      <span>${r.included ? '<span style="color:var(--green)">Included</span>' : fmtIDR(r.amount)}</span>
+      <span>${fmtIDR(r.amount)}</span>
     </div>`).join('') + `
     <div class="total-row grand">
       <span>Total</span>
@@ -2149,6 +2258,117 @@ document.getElementById('contactForm').addEventListener('submit', function (e) {
   document.getElementById('contactSuccess').style.display = 'block';
   this.querySelector('button[type=submit]').disabled = true;
 });
+
+// ── HERO SLIDESHOW ───────────────────────────────────────────
+(function () {
+  const slides = document.querySelectorAll('.hero-slide');
+  if (slides.length < 2) return;
+  let current = 0;
+  setInterval(() => {
+    slides[current].classList.remove('active');
+    current = (current + 1) % slides.length;
+    slides[current].classList.add('active');
+  }, 6000);
+})();
+
+// ── GALLERY SLIDESHOW ────────────────────────────────────────
+// To add/remove images: edit this array. Files live in /gallery/
+// Supports images (.jpg/.png/.webp) AND videos (.mp4/.webm/.mov).
+// File names are case-sensitive on the server — use lowercase extensions.
+const GALLERY_IMAGES = [
+  'gallery/1.jpg',
+  'gallery/2.jpg',
+  'gallery/3.jpg',
+  'gallery/4.mp4',   // video — autoplays, muted, loops
+  'gallery/5.jpg',
+  'gallery/6.jpg',
+];
+// Fallback Unsplash photos used when local files don't exist yet
+const GALLERY_FALLBACKS = [
+  'https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=1600&q=80',
+  'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=1600&q=80',
+  'https://images.unsplash.com/photo-1455729552865-3658a5d39692?w=1600&q=80',
+  'https://images.unsplash.com/photo-1473116763249-2faaef81ccda?w=1600&q=80',
+  'https://images.unsplash.com/photo-1519904981063-b0cf448d9a1f?w=1600&q=80',
+  'https://images.unsplash.com/photo-1531722569936-825d4ebd1cd9?w=1600&q=80',
+];
+
+(function () {
+  const wrap = document.getElementById('galleryWrap');
+  const dotsBox = document.getElementById('galleryDots');
+  if (!wrap || !dotsBox) return;
+
+  const isVideo = (src) => /\.(mp4|webm|mov)$/i.test(src);
+
+  // Build slides
+  GALLERY_IMAGES.forEach((src, i) => {
+    let media;
+    if (isVideo(src)) {
+      media = document.createElement('video');
+      media.muted       = true;
+      media.loop        = true;
+      media.playsInline = true;
+      media.preload     = 'metadata';
+      if (i === 0) media.autoplay = true;
+    } else {
+      media = document.createElement('img');
+      media.loading = 'lazy';
+      media.alt = '';
+    }
+    media.className = 'gallery-slide' + (i === 0 ? ' active' : '');
+    media.src = src;
+    media.onerror = function () {
+      this.onerror = null;
+      // Only swap fallback for images (videos just stay hidden)
+      if (this.tagName === 'IMG') this.src = GALLERY_FALLBACKS[i % GALLERY_FALLBACKS.length];
+    };
+    wrap.insertBefore(media, wrap.firstChild);
+
+    const dot = document.createElement('button');
+    dot.className = 'gallery-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Show item ' + (i + 1));
+    dot.addEventListener('click', () => goTo(i));
+    dotsBox.appendChild(dot);
+  });
+
+  const slides = wrap.querySelectorAll('.gallery-slide');
+  const dots   = dotsBox.querySelectorAll('.gallery-dot');
+  let current = 0;
+  let timer;
+
+  function goTo(idx) {
+    // Pause currently playing video, if any
+    if (slides[current].tagName === 'VIDEO') slides[current].pause();
+
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = (idx + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+
+    // Start playback if the new active slide is a video
+    if (slides[current].tagName === 'VIDEO') {
+      slides[current].currentTime = 0;
+      slides[current].play().catch(() => {});
+    }
+    restart();
+  }
+
+  function next() { goTo(current + 1); }
+  function prev() { goTo(current - 1); }
+
+  function restart() {
+    clearInterval(timer);
+    timer = setInterval(next, 5000);
+  }
+
+  document.getElementById('galleryNext').addEventListener('click', next);
+  document.getElementById('galleryPrev').addEventListener('click', prev);
+  wrap.addEventListener('mouseenter', () => clearInterval(timer));
+  wrap.addEventListener('mouseleave', restart);
+
+  restart();
+})();
 
 // ── FAQ ACCORDION ────────────────────────────────────────────
 function toggleFAQ(btn) {
