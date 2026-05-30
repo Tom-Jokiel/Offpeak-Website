@@ -2300,6 +2300,10 @@ const GALLERY_FALLBACKS = [
 
   const isVideo = (src) => /\.(mp4|webm|mov)$/i.test(src);
 
+  // Reference node — slides are inserted BEFORE the arrow,
+  // which keeps DOM order matching the array order.
+  const prevArrow = document.getElementById('galleryPrev');
+
   // Build slides
   GALLERY_IMAGES.forEach((src, i) => {
     let media;
@@ -2308,21 +2312,22 @@ const GALLERY_FALLBACKS = [
       media.muted       = true;
       media.loop        = true;
       media.playsInline = true;
-      media.preload     = 'metadata';
+      media.preload     = i === 0 ? 'auto' : 'metadata';
       if (i === 0) media.autoplay = true;
     } else {
       media = document.createElement('img');
-      media.loading = 'lazy';
+      // Load the first slide eagerly so it shows immediately
+      media.loading = i === 0 ? 'eager' : 'lazy';
+      media.decoding = i === 0 ? 'sync' : 'async';
       media.alt = '';
     }
     media.className = 'gallery-slide' + (i === 0 ? ' active' : '');
     media.src = src;
     media.onerror = function () {
       this.onerror = null;
-      // Only swap fallback for images (videos just stay hidden)
       if (this.tagName === 'IMG') this.src = GALLERY_FALLBACKS[i % GALLERY_FALLBACKS.length];
     };
-    wrap.insertBefore(media, wrap.firstChild);
+    wrap.insertBefore(media, prevArrow);
 
     const dot = document.createElement('button');
     dot.className = 'gallery-dot' + (i === 0 ? ' active' : '');
